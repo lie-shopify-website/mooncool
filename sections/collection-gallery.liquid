@@ -1,0 +1,332 @@
+<div class="layout-output collection-gallery-box">
+<div class="layout-inner">
+    <div class="block2-box">
+          {% if section.settings.title != blank %}
+            <div class="heading-title">
+               <div class="title"><h2>{{ section.settings.title }}</h2></div>
+            </div>
+          {% endif %}
+
+          <div class="picture-box">
+              <div class="col left"><div class="img"><a href="{{ section.settings.url }}"><img src="{{ section.settings.left_image | image_url:width:1000 }}" /></a></div></div>
+            
+              <div class="col right">
+                  <div class="holiday-box">
+                      <div class="item-box">
+                            {% for block in section.blocks %}
+                              {% if block.settings.image != blank %}
+                                  <div class="item item{{ forloop.index | minus:1 }} {% if forloop.first %}active{% endif %}">
+                                      <a class="img-box" href="{{ block.settings.url }}">
+                                        <div class="img"><img src="{{ block.settings.image | image_url:width:1000 }}" /></div>
+                                        <div class="c-title"><span>{{ block.settings.title }}</span></div>
+                                      </a>
+                                  </div>
+                              {% endif %}
+                            {% endfor %}
+                      </div>
+                  
+                      <div class="prev cbtns"><img src="https://cdn.shopify.com/s/files/1/0652/6638/5115/files/summer-sale-arrow.png?v=1720771802" style="transform: rotate(-180deg);" /></div>
+                      <div class="next cbtns"><img src="https://cdn.shopify.com/s/files/1/0652/6638/5115/files/summer-sale-arrow.png?v=1720771802" style="transform: rotate(-10deg);" /></div>
+                  </div>
+              </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+
+        timer = window.setInterval(transformLeft, 4000);
+  
+		$('.holiday-box .prev').on('click', function(){
+			transformLeft();
+            window.clearInterval(timer);
+            timer = window.setInterval(transformLeft, 4000);
+		});
+		$('.holiday-box .next').on('click', function(){
+			transformRight();
+            window.clearInterval(timer);
+            timer = window.setInterval(transformLeft, 4000);
+		});
+
+		var item = $('.holiday-box .item-box .item');
+		var current = '.holiday-box .item-box .item.active';
+		function transformLeft(){
+			var length = item.length;
+			var currentIndex = $(current).index();
+			
+			var num = 0;
+			for (i = 0; i < length; i++) {
+				if(i < currentIndex){
+					num = currentIndex - i -1;
+				}else{
+					num = length - (i - currentIndex) - 1;
+				}
+				item.eq(i).removeClass().addClass('item item'+ num);
+			}
+			
+			if(currentIndex >= 1){
+				var nextIndex = currentIndex - 1;
+			}else{
+				var nextIndex = length - 1;
+			}
+			item.eq(nextIndex).addClass('active');
+		}
+		
+		function transformRight(){
+			var length = item.length;
+			var currentIndex = $(current).index();
+			
+			if(currentIndex < (length - 1)){
+				var nextIndex = currentIndex + 1;
+			}else{
+				var nextIndex = 0;
+			}
+			
+			var num = 0;
+			for (i = 0; i < length; i++) {
+				if(i <= nextIndex){
+					num = nextIndex - i;
+				}else{
+					num = length - (i - nextIndex);
+				}
+				item.eq(i).removeClass().addClass('item item'+ num);
+			}
+			
+			item.eq(nextIndex).addClass('active');
+			
+		}
+});
+</script>
+
+  
+<style>
+.collection-gallery .title h2 {
+    text-align: center;
+    font-size: 50px;
+    padding: 0;
+    margin: 0 0 100px 0;
+}
+.holiday-box {
+	margin:auto;
+    position: relative;
+}
+.holiday-box .item-box {
+    width: 100%;
+    position: relative;
+}
+
+.holiday-box .item-box .item {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    opacity: 0;
+    color: #fff;
+    transform: translateY(0);
+    transition: all 1.5s;
+    display: block;
+    text-align: center;
+}
+
+.holiday-box .item-box .img-box::before {
+    position: absolute;
+    content: "";
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.0) 30%, rgba(0, 0, 0, 0.4) 100%);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    top: unset;
+    z-index: 3;
+}
+.holiday-box .item-box .item.active .img-box::before {
+    display:none;
+}
+  
+.holiday-box .item-box .item .img-box {
+    display: block;
+    line-height: 0;
+    position: relative;
+}
+
+.holiday-box .item-box .item .img-box img {
+    display: block;
+    line-height: 0;
+    z-index: 2;
+    box-shadow: 2px 0 10px 0 #00000057;
+}
+
+.holiday-box .item-box .item0 {
+    left: -5%;
+    z-index: 2;
+    opacity: 1;
+    position: relative;
+    top: 0;
+    transform: scale(1) translate(0);
+}
+
+.holiday-box .item-box .item1 {
+    left: 5%;
+    z-index: 1;
+    transform: scale(.9) translateY(0);
+    opacity: 1;
+}
+
+.holiday-box .item-box .item2 {
+    left: 15%;
+    z-index: 0;
+    transform: scale(.8) translateY(0);
+    opacity: 1;
+}
+
+.holiday-box .item-box .item3 {
+    left: -15%;
+    z-index: 0;
+    transform: scale(1) translateY(0);
+    opacity: 0;
+}
+
+.holiday-box .item-box .item4 {
+    left: -15%;
+    z-index: 0;
+    transform: scale(1) translateY(0);
+    opacity: 0;
+}
+
+.holiday-box .item-box .item5 {
+    left: -15%;
+    z-index: 0;
+    transform: scale(1) translateY(0);
+    opacity: 0;
+}
+
+.holiday-box .item-box .item6 {
+    left: -15%;
+    z-index: 0;
+    transform: scale(1) translateY(0);
+    opacity: 0;
+}
+.holiday-box .cbtns {
+    background: rgb(255 255 255 / 80%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.holiday-box .cbtns.next {
+  left:auto;
+  right:calc(7.5% + 10px);
+}
+
+.holiday-box .item-box .item .c-title {
+    font-size: 30px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    display: block;
+    background: #00000061;
+    line-height: 1;
+    padding: 15px 0;
+    color: #fff;
+}
+  
+.collection-gallery .layout-inner {
+    padding:0 10%;
+    margin: auto;
+}  
+.collection-gallery .title { margin:0; }  
+@media screen and (min-width: 1200px) { 
+  .holiday-box .cbtns:hover {
+    background:#fff;
+  }
+}
+.collection-gallery {
+    background: #fff9db;
+    padding: 100px 0;
+}  
+.collection-gallery .picture-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+}
+.collection-gallery .picture-box .col {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+.collection-gallery .picture-box .col.right {
+    background: linear-gradient(240deg, #d4a88e, #f9ebdf);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width:767px) { 
+  .collection-gallery .layout-inner {
+      padding:0;
+  } 
+  .collection-gallery {
+      padding: 50px 10px;
+  }
+  .collection-gallery .title h2 {
+      margin: 0 0 50px 0;
+      font-size: 26px;
+  }
+  .collection-gallery .picture-box .col {
+      flex: 0 0 100%;
+      max-width: 100%;
+  }
+  .collection-gallery .holiday-box .cbtns {
+      width: 35px;
+      height: 35px;
+  }
+  .collection-gallery .holiday-box {
+      max-width: 80%;
+      padding: 20px 0;
+  }
+  .holiday-box .item-box .item .c-title {
+      font-size: 22px;
+      padding: 10px 0;
+  }
+}
+  
+</style>
+
+{% schema %}
+{
+  "name": "Collection Gallery",
+  "class": "collection-gallery",
+  "settings": [
+        { "type": "textarea", "id": "title", "label": "Title" },
+        { "type": "url", "id": "url", "label": "Url" },
+        { "type": "image_picker", "id": "left_image", "label": "Left Image" }
+  ],
+  "blocks": [
+      {
+          "type": "image",
+          "name": "Image",
+          "settings": [
+              { "type": "image_picker", "id": "image", "label": "Image" },
+              { "type": "url", "id": "url", "label": "Url" },
+              { "type": "text", "id": "title", "label": "Title" }
+          ]
+      }
+  ],
+  "presets": [{
+    "name": "Collection Gallery",
+    "category": "Image"
+  }]
+}
+{% endschema %}

@@ -1,0 +1,172 @@
+<nav class="header-inline-menu">
+  <ul class="menu-ul menu-level-1">
+    {%- for link in section.settings.menu.links -%}
+      {% liquid
+        assign link_title_downcase = link.title | downcase
+        assign mega_menu_block = ''
+
+        for block in section.blocks
+          assign menu_item_downcase = block.settings.menu_item | strip | downcase
+
+          if menu_item_downcase == link_title_downcase
+            assign mega_menu_block = block
+            break
+          endif
+        endfor
+      %}
+      
+      <li class="menu-item top-level {% if link.links != blank %} has-child {% endif %}">
+			<div class="link-title">
+              <a href="{{ link.url }}" class="menu__link" {% if mega_menu_block.settings.change_title_color %}style="color:{{ mega_menu_block.settings.toplevel_font_color }};{% if mega_menu_block.settings.is_title_bold %}font-weight:700;{% endif %}"{% endif %} >
+				<span class="top-level-title"> {{- link.title | escape -}} {% if mega_menu_block.settings.show_sale_icon %}<span class="font-icon" style="--font-icon:{{ mega_menu_block.settings.toplevel_font_color }};">{{ mega_menu_block.settings.sale_icon }}</span>{% endif %}</span>
+			  </a>
+              {%- if link.links != blank -%}
+                  <div class="link-top-arrow link-arrow">
+                    <svg aria-hidden="true" focusable="false" class="icon icon-caret pc" style="max-width:20px;" viewBox="0 0 10 6">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="{% if mega_menu_block.settings.change_title_color %}{{ mega_menu_block.settings.toplevel_font_color }}{% else %}currentColor{% endif %}"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mb" style="max-width:30px;" viewBox="0 0 122.875 122.648"><g>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M108.993,47.079c7.683-0.059,13.898,6.12,13.882,13.805 c-0.018,7.683-6.26,13.959-13.942,14.019L75.24,75.138l-0.235,33.73c-0.063,7.619-6.338,13.789-14.014,13.78 c-7.678-0.01-13.848-6.197-13.785-13.818l0.233-33.497l-33.558,0.235C6.2,75.628-0.016,69.448,0,61.764 c0.018-7.683,6.261-13.959,13.943-14.018l33.692-0.236l0.236-33.73C47.935,6.161,54.209-0.009,61.885,0 c7.678,0.009,13.848,6.197,13.784,13.818l-0.233,33.497L108.993,47.079L108.993,47.079z">
+                      </path></g>
+                    </svg>
+                  </div>
+              {% endif %}
+            </div>
+
+            <div class="menu-type {% if mega_menu_block != '' and mega_menu_block.settings.use_mage_menu %} mega-menu {% endif %}">
+			{%- if link.links != blank -%}
+                <ul class="menu-list menu-level-2">
+                  <div class="left-side menu-block overflow">
+                      {% if mega_menu_block.settings.show_left_block == true %}
+                          <div class="mega_left-block">
+                              <div class="mega-menu-column left-menu-col">
+                                  <h2 class="mega-menu__headline">{{ mega_menu_block.settings.left_title }}</h2>
+                                  <div class="mm-content">{{ mega_menu_block.settings.left_sub_info }}</div>
+                                  <div class="abtn" title="{{ mega_menu_block.settings.button_label }}"><a href="{{ mega_menu_block.settings.button_link }}">{{ mega_menu_block.settings.button_label }}</a></div>
+                                  
+                                  <div class="mm-warranty">
+                                      {% for i in (1..3) %}
+                                            {% capture title %}link_title{{ i }}{% endcapture %}
+                                            {% capture blink %}left_link_{{ i }}{% endcapture %}
+                                            
+                                            {% if mega_menu_block.settings[blink] != blank %}
+                                             <a href="{{ mega_menu_block.settings[blink] }}" class="value-prop" title="{{ mega_menu_block.settings[title] }}">
+                                                  <span class="value-prop-logo">
+                                                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                      <path d="M22 11.0801V12.0001C21.9988 14.1565 21.3005 16.2548 20.0093 17.9819C18.7182 19.7091 16.9033 20.9726 14.8354 21.584C12.7674 22.1954 10.5573 22.122 8.53447 21.3747C6.51168 20.6274 4.78465 19.2462 3.61096 17.4372C2.43727 15.6281 1.87979 13.4882 2.02168 11.3364C2.16356 9.18467 2.99721 7.13643 4.39828 5.49718C5.79935 3.85793 7.69279 2.71549 9.79619 2.24025C11.8996 1.76502 14.1003 1.98245 16.07 2.86011" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                      <path d="M22 4L12 14.01L9 11.01" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                  </svg>
+                                                  </span>
+                                                  <span class="value-prop-text">{{ mega_menu_block.settings[title] }}</span>
+                                              </a>
+                                            {% endif %}
+                                      {% endfor %}
+                                  </div>
+                              </div>
+                          </div>
+                      {% endif %}
+                  </div>
+                  <div class="ul-height menu-block overflow">
+                      <div class="menu-item-list" columns-per-row="{{ mega_menu_block.settings.columns_per_row }}" columns-per-row-mb="{{ mega_menu_block.settings.columns_per_row_mb }}" align="{{ mega_menu_block.settings.level_2_menu_align }}">
+                      {%- for childlink in link.links -%}
+                      {% assign inx = forloop.index %}
+                        <li class="menu-item level-2">
+                          <a href="{{ childlink.url }}" class="menu__link" >
+                            
+                            {%- liquid
+                                assign icon = ''
+                                assign handle = childlink.url | split:'/' | last
+                                case childlink.type
+                                   when 'product_link'
+                                       assign cu_product = all_products[handle]
+                                       assign icon = cu_product.metafields.custom.icon
+                                       assign short_description = cu_product.metafields.custom.short_description
+                                   when 'page_link'
+                                       assign page = pages[handle]
+                                       assign icon = page.metafields.custom.icon
+                                       assign short_description = page.metafields.custom.short_description
+                                   when 'blog_link'
+                                       assign blog = blogs[handle]
+                                       assign icon = blog.metafields.custom.icon
+                                       assign short_description = blog.metafields.custom.short_description
+                                   when 'collection_link'
+                                       assign collection = collections[handle]
+                                       assign icon = collection.metafields.custom.icon
+                                       assign short_description = collection.metafields.custom.short_description
+                                endcase
+                            -%}
+                            {% if icon != blank %}
+                                <img class="menu-icon" data-handle="{{ handle }}" src="{{ icon | image_url:width:100 }}" width="100" height="100" />
+                            {% endif %}
+                            
+                            <span class="menu-child-title">{{ childlink.title | escape }}</span>
+                            
+                            {% if short_description != blank %}
+                                <div class="product-short-desc" >{{ short_description }}</div>
+                            {% endif %}
+                          </a>
+                          
+                          {%- if childlink.links != blank -%}
+                            <ul class="menu-list-child menu-level-3">
+                              <div class="ul-height">
+                                  {%- for grandchildlink in childlink.links -%}
+                                    <li class="menu-item level-3">
+                                      <a href="{{ grandchildlink.url }}" class="menu__link" >
+                                        {{ grandchildlink.title | escape }}
+                                      </a>
+                                    </li>
+                                  {%- endfor -%}
+                              </div>
+                            </ul>
+                          {%- endif -%}
+                        </li>
+                      {%- endfor -%}
+                      </div>
+                  </div>
+                  <div class="right-side menu-block overflow">
+                      {% if mega_menu_block.settings.show_right_block == true %}
+                          <div class="mega_right-block">
+                              {% if mega_menu_block.settings.right_main_image != blank %}
+                              {% capture img_width %}{{ mega_menu_block.settings.right_main_image_width }}{% endcapture %}
+                              <div class="sub-banner" style="margin-bottom:30px;">
+                                  {% if mega_menu_block.settings.right_banner_url != blank %}<a href="{{ mega_menu_block.settings.right_banner_url }}">{% endif %}
+                                  <div class="img" style="margin-bottom:20px;"><img {% if mega_menu_block.settings.is_border_radius %} style="border-radius:15px;" {% endif %} src="{{ mega_menu_block.settings.right_main_image | image_url:width: img_width }}" width="500" height="500"></div>
+                                  <div class="text">{{ mega_menu_block.settings.right_main_image_info }}</div>
+                                  {% if mega_menu_block.settings.right_banner_url != blank %}</a>{% endif %}
+                              </div>
+                              {% endif %}
+                        
+                              <div class="mega-menu-column right-menu-col">
+                                {% for i in (1..4) %}
+                                      {% capture image %}right_item_image_{{ i }}{% endcapture %}
+                                      {% capture title %}right_item_title_{{ i }}{% endcapture %}
+                                      {% capture sub_title %}right_item_sub_title_{{ i }}{% endcapture %}
+                                      {% capture item_link %}right_item_link_{{ i }}{% endcapture %}
+                                  
+                                      
+                                      {% if mega_menu_block.settings[title] != blank %}
+                                         <a class="service-container " href="{{ mega_menu_block.settings[item_link] }}" title="{{ mega_menu_block.settings[title] }}">
+                                      		<div class="service-column-1">{% if mega_menu_block.settings[image] != blank %}<img src="{{ mega_menu_block.settings[image] | image_url:width:50 }}" width="50" height="50" />{% endif %}</div>
+                                      		<div class="service-column-2">
+                                      		  <div class="service-column-heading">
+                                      			<h5>{{ mega_menu_block.settings[title] }}</h5>
+                                      			<svg class="icon icon--arrow-right" viewBox="0 0 8 14" role="presentation" fill="none">
+                                      			  <path d="M1 13L7 7L1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                                      			</svg></div>
+                                      		  <p class="service-column-copy">{{ mega_menu_block.settings[sub_title] }}</p>
+                                      		</div>
+                                      	</a>
+                                      {% endif %}
+                                {% endfor %}
+                              	
+                              </div>
+                          </div>
+                      {% endif %}
+                  </div>
+                </ul>
+		    {% endif %}
+            </div>
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>

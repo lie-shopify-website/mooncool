@@ -1,0 +1,160 @@
+
+<div class="faqs" style="background:{{ section.settings.background }};">
+  <div class="content-box">
+      <div class="heading-title"><h2>FAQs</h2></div>
+
+      <div class="faq-info">
+
+        {%- for block in section.blocks -%}
+          <div class="issue">
+            <p class="q" style="color:{{ block.settings.title_color }};">{{ block.settings.title }}</p>
+            <p class="a" >{{ block.settings.answer }}</p>
+          </div>
+        {% endfor %}
+      </div>    
+  </div>
+
+  <style>
+    .shopify-section section{
+      background:{{ section.settings.background }};
+    }
+    .faqs{
+      padding-right: 10px;
+      padding-left: 10px;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+    
+     .faqs .content-box{
+      width: 100%;
+      display: block;
+     }
+
+    
+    .faqs .heading-title {
+        text-align-last: center;
+    }
+    .faqs .heading-title h2{
+      font-weight: 700;
+      font-size: 35px;
+    }
+    .faqs .issue {
+        margin-bottom: 20px;
+    }
+    .faqs .q{
+      font-weight: 700;
+      font-size:{{ section.settings.title_size }}px;
+      margin:0;
+    }
+    .faqs .a{
+      margin:0;
+      font-size:{{ section.settings.font_size }}px;
+      color:{{ section.settings.content_color }};
+      height: 0;
+      overflow: hidden;
+    }
+    .faqs .open .a{
+      height: auto;
+    }
+    .faqs .faq-info{
+      font-size:20p;
+    }
+    
+  </style>
+</div>
+
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+    $('.faqs .q').on('click', function(){   //当前 -- q
+      var issueElement = $(this).parents('.issue'); 
+      
+      if(issueElement.hasClass('open')){
+        issueElement.removeClass('open');
+      }else{
+        issueElement.addClass('open');
+      }
+    });
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Test2",
+  "settings": [
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "按钮倒角",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "标题大小",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "内容大小",
+      "default": 16
+    },
+   {
+      "type": "color",
+      "id": "content_color",
+      "label": "内容颜色",
+      "default": "#000000"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "linear-gradient(#ffffff, #000000)"
+    }
+  ],
+
+      
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "标题"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "标题颜色",
+            "default": "#000000"
+          },
+          {
+            "type": "textarea",
+            "id": "answer",
+            "label": "描述"
+          }
+      ]
+    } 
+  ],
+  "presets": [
+    {
+      "name": "Test2"
+    }
+  ]
+}
+{% endschema %}

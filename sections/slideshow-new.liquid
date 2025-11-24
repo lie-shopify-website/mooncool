@@ -1,0 +1,419 @@
+<section data-section-id="{{ section.id }}" data-section-type="slideshow">
+  <div class="slideshow-container">
+    <div class="slideshow-box">
+      
+        <div class="swiper-father">
+          <div class="swiper">
+            <div class="swiper-wrapper">
+
+                {%- for block in section.blocks -%}
+                    
+                    {% if forloop.index == 1 %}
+                        <link rel="preload" href="{{ block.settings.image | image_url:width:2000 }}" as="image">
+                        <link rel="preload" href="{{ block.settings.mobile_image | image_url:width:700 }}" as="image">
+                    {% endif %}
+                  
+                    <div class="swiper-slide">
+                        <div class="media-box">
+                          <a href="{{ block.settings.button_link_1 }}">
+                          <div class="opacity" style="opacity: calc({{ block.settings.overlay_opacity }} * 0.01);"></div>
+
+                            {% if block.settings.show_video == true %}
+                              <div class="videos">
+                                  <div class="video-layout">
+                                      <div class="video-container pc">
+                                          <video muted="" autoplay="autoplay" loop="loop" playsinline="">
+                                              <source data-src="{{ block.settings.video.sources[1].url }}">
+                                          </video></div>
+                                      <div class="video-container mb">
+                                          <video muted="" autoplay="autoplay" loop="loop" playsinline="">
+                                              <source data-src="{{ block.settings.video_mb.sources[1].url }}">
+                                          </video>
+                                      </div>
+                                  </div>
+                              </div>
+                            {% else %}
+                              <div class="imgs">
+                                  <picture>
+                                    <source srcset="{{ block.settings.mobile_image | image_url: width: 1023 }}"  media="(max-width: 1023px)" />
+                                    <source srcset="{{ block.settings.image | image_url: width: block.settings.image.width }}" media="(min-width: 1024px)" />
+                                    <img src="{{ block.settings.mobile_image | image_url: width: 1024 }}" width="100%" height="auto" />
+                                  </picture>
+                              </div>
+                            {% endif %}
+                          </a>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-layout">
+                                  {%- if block.settings.pretext != blank -%}
+                                      <div class="pretext">{{ block.settings.pretext }}</div>
+                                  {%- endif -%}
+                    
+                                  {%- if block.settings.title != blank -%}
+                                      <h1 class="slideshow__title h1">{{ block.settings.title | newline_to_br }}</h1>
+                                  {%- endif -%}
+
+                                  {%- if block.settings.sub_title != blank -%}
+                                      <p class="slideshow__sub_title">{{ block.settings.sub_title | newline_to_br }}</p>
+                                  {%- endif -%}
+                  
+                                  {%- if block.settings.content != blank -%}
+                                      <p class="slideshow__content">{{ block.settings.content | newline_to_br }}</p>
+                                  {%- endif -%}
+
+                                  <div class="button-box">
+                                    {%- if block.settings.button_link_1 != blank and block.settings.button_text_1 != blank -%}
+                                      <a href="{{ block.settings.button_link_1 }}" style="background-color:{{ block.settings.button_background_1 }};color:{{ block.settings.button_text_color_1 }};" 
+                                            class="slideshow__button button1">{{ block.settings.button_text_1 | escape }}</a>
+                                    {%- endif -%}
+                  
+                                    {%- if block.settings.button_link_2 != blank and block.settings.button_text_2 != blank -%}
+                                      <a href="{{ block.settings.button_link_2 }}" style="margin-left:20px;background-color:{{ block.settings.button_background_2 }};color:{{ block.settings.button_text_color_2 }};" 
+                                            class="slideshow__button button2" >{{ block.settings.button_text_2 | escape }}</a>
+                                    {%- endif -%}
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                {%- endfor -%}
+
+                
+            </div>
+
+            <div class="swiper-pagination"></div>
+            {% comment %}<div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>{% endcomment %}
+          </div>
+        </div>
+    </div>
+
+        
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            var thumbsRightSwiper = new Swiper('[data-section-id="{{ section.id }}"] .swiper', {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                loop: true,                        
+                watchSlidesVisibility: true,//防止不可点击
+                navigation: {
+                    nextEl: '[data-section-id="{{ section.id }}"] .swiper-button-next',
+                    prevEl: '[data-section-id="{{ section.id }}"] .swiper-button-prev',
+                },
+                pagination: {
+                    el: '[data-section-id="{{ section.id }}"] .swiper-pagination',
+                    clickable: true
+                },
+              
+                {% if section.settings.autoplay %}
+                autoplay: {
+                    delay: {{ section.settings.cycle_speed }} * 1000,
+                    stopOnLastSlide: false,
+                    disableOnInteraction: true,
+                },
+                effect: '{{ section.settings.carousel_effect }}',
+                {% endif %}
+            });
+
+           
+        });
+    </script>
+
+    <style>
+      .slideshow-box span.swiper-pagination-bullet {
+          width: 30px;
+          height: 5px;
+          border-radius: 7px;
+      }
+      .slideshow-box .swiper-button-prev {
+          left: 5px;
+          width: 40px;
+          height: 40px;
+          background: #44444461;
+          color: #fff;
+          border-radius: 50%;
+          right: unset;
+      }
+      .slideshow-box .swiper-button-next {
+          right: 5px;
+          width: 40px;
+          height: 40px;
+          background: #44444461;
+          color: #fff;
+          border-radius: 50%;
+          left: unset;
+      }
+      .slideshow-box .swiper-button-prev:hover,
+      .slideshow-box .swiper-button-next:hover {
+          background: #fff;
+          color: #000;
+      }
+      .slideshow-box .swiper-slide {
+          position: relative;
+      }
+      .slideshow-container {
+          margin-bottom: 30px;
+      }
+      .slideshow-box .swiper-button-next:after,
+      .slideshow-box .swiper-button-prev:after {
+          font-size: 22px;
+          opacity: 1;
+          font-family: swiper-icons;
+      }
+      .slideshow-box .content-box {
+          position: absolute;
+          left: 5%;
+          bottom: 50%;
+          transform: translateY(50%);
+          z-index: 2;
+      }
+      .slideshow-box .content-box .content-layout {
+          color: #fff;
+      }
+      .slideshow-box .content-box .pretext {
+          font-size:20px;
+      }
+      .slideshow-box .content-box .slideshow__title {
+          margin-bottom: 40px;
+          margin-top: 10px;
+          font-size: 60px;
+          color: #FFFFFF;
+      }
+      .slideshow-box .content-box .slideshow__sub_title {
+          font-size:18px;
+      }
+      .slideshow-box .content-box .slideshow__content {
+          max-width: 480px;
+          margin: 20px 0;
+          font-size:18px;
+      }
+      .slideshow-box .content-box a.slideshow__button {
+          position: relative;
+          display: inline-block;
+          padding: 5px 50px;
+          line-height: 40px;
+          text-align: center;
+          font-weight: var(--text-font-bolder-weight);
+          font-size: var(--base-text-font-size);
+          cursor: pointer;
+          transition: background .25s ease-in-out,color .25s ease-in-out,box-shadow .25s ease-in-out;
+          border-radius: 32px;
+      }
+      .slideshow-box .media-box .opacity {
+          width: 100%;
+          height: 100%;
+          background: #000;
+          z-index: 1;
+          position: absolute;
+      }
+      .slideshow-box video {
+          display: block;
+          vertical-align: baseline;
+          max-width: 1920px;
+          width: 100%;
+          margin: auto;
+      }
+      [data-section-type="slideshow"] img {
+          margin: auto;
+          display: block;
+      }
+      .slideshow-box .swiper-pagination-bullet-active {
+          background:#e56321;
+      }
+      @media screen and (max-width: 767px) {
+          .slideshow-box .content-box {
+              position: absolute;
+              left: 0;
+              bottom: 8%;
+              transform: translateY(0%);
+              z-index: 2;
+              padding: 0 5%;
+              text-align: center;
+              width: 100%;
+          }
+          .slideshow-box .content-box .pretext {
+          font-size:15px;
+          }
+          
+          .slideshow-box .content-box .slideshow__sub_title {
+              font-size: 16px;
+          }
+          .slideshow-box .content-box .slideshow__title {
+              font-size: 26px;
+              margin-bottom: 20px;
+          }
+          .slideshow-box .content-box a.slideshow__button {
+              padding: 0 30px;
+          }
+      }
+        
+    </style>
+    
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Slideshow New",
+  "settings": [
+    {
+      "type": "select",
+      "id": "carousel_effect",
+      "label": "Transition effect",
+      "options": [
+        {
+          "value": "fade",
+          "label": "Fade"
+        },
+        {
+          "value": "slide",
+          "label": "Slide"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto rotate between slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "cycle_speed",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "unit": "sec",
+      "label": "Change slides every",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_video",
+          "label": "Show Video",
+          "info": "Show Video Or Image",
+          "default": false
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "video",
+          "id": "video_mb",
+          "label": "Video Mobile"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "2160 x 720px .jpg recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image",
+          "info": "750 x 1100px .jpg recommended. If none is set, desktop image will be used."
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay opacity",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 0
+        },
+        {
+          "type": "textarea",
+          "id": "pretext",
+          "label": "Preheading"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Heading"
+        },
+		{
+          "type": "textarea",
+          "id": "sub_title",
+          "label": "Sub Title"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content"
+        },
+        
+        {
+          "type": "header",
+          "content": "Button 1"
+        },
+        {
+          "type": "color",
+          "id": "button_background_1",
+          "label": "Background",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color_1",
+          "label": "Text",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "button_text_1",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "Link"
+        },
+		{
+          "type": "header",
+          "content": "Button 2"
+        },
+        {
+          "type": "color",
+          "id": "button_background_2",
+          "label": "Background",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color_2",
+          "label": "Text",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "button_text_2",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Image",
+      "name": "Slideshow New"
+    }
+  ]
+}
+{% endschema %}

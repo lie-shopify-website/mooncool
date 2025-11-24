@@ -1,0 +1,178 @@
+<style>
+h1 {
+  margin:100px 0 30px;
+}
+</style>
+
+<h1>All Collections</h1>
+<table>
+<tr>
+  <th>index</th>
+  <th>id</th>
+  <th>title</th>
+  <th>collection</th>
+  <th>featured image</th>
+  <th>additional-image</th>
+  <th>lifestyle</th>
+</tr>
+{% assign inx = 1 %}
+{% for prod in collections['all'].products limit:300 %}
+  {% for var in prod.variants %}
+      <tr class="list">
+        <td>{{ inx }}</td>
+        <td>shopify_US_{{ prod.id }}_{{ var.id }}</td>
+        <td>{{ prod.title }} {{ var.title }}</td>
+        <td>{% for coll in prod.collections %} {{ coll.title }}{% unless forloop.last %} - {% endunless %}{% endfor %}</td>
+        <td>{% if var.featured_image.src != blank %}{{ var.featured_image.src | image_url: width: 1000  | replace:'//','https://' }}{% else %}{{ prod.featured_image.src | image_url: width: 1000  | replace:'//','https://' }}{% endif %}</td>
+        {% assign additional_image = '' %}
+        {% assign lifestyle = '' %}
+        {% for image in prod.media %}
+            {% if image.alt contains 'Additional' and image.src != blank %}
+              {% assign image_src = image.src | image_url: width: 1000 %}
+              {% assign additional_image = additional_image | append:image_src | append:',' %}
+            {% endif %}
+            {% if image.alt contains 'Scene Graph' and image.src != blank %}
+              {% assign image_src = image.src | image_url: width: 1000 %}
+              {% assign lifestyle = lifestyle | append:image_src | append:',' %}
+            {% endif %}
+        {% endfor %}
+        <td>{{ additional_image | remove_last:',' | replace:'//','https://' }}</td>
+        <td>{{ lifestyle | remove_last:',' | replace:'//','https://' | split:',' | first }}</td>
+      </tr>
+      {% assign inx = inx | plus:1 %}
+  {% endfor %}
+{% endfor %}
+</table>
+
+
+<h1>Incense Burner</h1>
+<table>
+<tr>
+  <th>index</th>
+  <th>id</th>
+  <th>title</th>
+  <th>collection</th>
+  <th>featured image</th>
+  <th>additional-image</th>
+  <th>lifestyle</th>
+</tr>
+{% assign inx = 1 %}
+{% for prod in collections['incense-burner'].products limit:300 %}
+  {% for var in prod.variants %}
+      <tr class="list">
+        <td>{{ inx }}</td>
+        <td>shopify_US_{{ prod.id }}_{{ var.id }}</td>
+        <td>{{ prod.title }} {{ var.title }}</td>
+        <td>{% for coll in prod.collections %} {{ coll.title }}{% unless forloop.last %} - {% endunless %}{% endfor %}</td>
+        <td>{% if var.featured_image.src != blank %}{{ var.featured_image.src | image_url: width: 1000  | replace:'//','https://' }}{% else %}{{ prod.featured_image.src | image_url: width: 1000  | replace:'//','https://' }}{% endif %}</td>
+        {% assign additional_image = '' %}
+        {% assign lifestyle = '' %}
+        {% for image in prod.media %}
+            {% if image.alt contains 'Additional' and image.src != blank %}
+              {% assign image_src = image.src | image_url: width: 1000 %}
+              {% assign additional_image = additional_image | append:image_src | append:',' %}
+            {% endif %}
+            {% if image.alt contains 'Scene Graph' and image.src != blank %}
+              {% assign image_src = image.src | image_url: width: 1000 %}
+              {% assign lifestyle = lifestyle | append:image_src | append:',' %}
+            {% endif %}
+        {% endfor %}
+        <td>{{ additional_image | remove_last:',' | replace:'//','https://' }}</td>
+        <td>{{ lifestyle | remove_last:',' | replace:'//','https://' | split:',' | first }}</td>
+      </tr>
+      {% assign inx = inx | plus:1 %}
+  {% endfor %}
+{% endfor %}
+</table>
+
+<h1>Incense</h1>
+<table>
+<tr>
+  <th>index</th>
+  <th>id</th>
+  <th>title</th>
+  <th>collection</th>
+  <th>featured image</th>
+  <th>additional-image</th>
+  <th>lifestyle</th>
+</tr>
+{% assign inx = 1 %}
+{% for prod in collections['incense'].products limit:300 %}
+  {% for var in prod.variants %}
+      <tr class="list">
+        <td>{{ inx }}</td>
+        <td>shopify_US_{{ prod.id }}_{{ var.id }}</td>
+        <td>{{ prod.title }} {{ var.title }}</td>
+        <td>{% for coll in prod.collections %} {{ coll.title }}{% unless forloop.last %} - {% endunless %}{% endfor %}</td>
+        <td>{% if var.featured_image.src != blank %}{{ var.featured_image.src | image_url: width: 1000  | replace:'//','https://' }}{% else %}{{ prod.featured_image.src | image_url: width: 1000  | replace:'//','https://' }}{% endif %}</td>
+        {% assign additional_image = '' %}
+        {% assign lifestyle = '' %}
+        {% for image in prod.media %}
+            {% if image.alt contains 'Additional' and image.src != blank %}
+              {% assign image_src = image.src | image_url: width: 1000 %}
+              {% assign additional_image = additional_image | append:image_src | append:',' %}
+            {% endif %}
+            {% if image.alt contains 'Scene Graph' and image.src != blank %}
+              {% assign image_src = image.src | image_url: width: 1000 %}
+              {% assign lifestyle = lifestyle | append:image_src | append:',' %}
+            {% endif %}
+        {% endfor %}
+        <td>{{ additional_image | remove_last:',' | replace:'//','https://' }}</td>
+        <td>{{ lifestyle | remove_last:',' | replace:'//','https://' | split:',' | first }}</td>
+      </tr>
+      {% assign inx = inx | plus:1 %}
+  {% endfor %}
+{% endfor %}
+</table>
+
+
+<h1>Incense Cone Stick</h1>
+<table>
+<tr>
+  <th>index</th>
+  <th>id</th>
+  <th>title</th>
+  <th>collection</th>
+  <th>featured image</th>
+  <th>additional-image</th>
+  <th>lifestyle</th>
+</tr>
+{% assign inx = 1 %}
+{% for prod in collections['incense-cone-stick'].products limit:300 %}
+  {% for var in prod.variants %}
+      <tr class="list">
+        <td>{{ inx }}</td>
+        <td>shopify_US_{{ prod.id }}_{{ var.id }}</td>
+        <td>{{ prod.title }} {{ var.title }}</td>
+        <td>{% for coll in prod.collections %} {{ coll.title }}{% unless forloop.last %} - {% endunless %}{% endfor %}</td>
+        <td>{% if var.featured_image.src != blank %}{{ var.featured_image.src | image_url: width: 1000  | replace:'//','https://' }}{% else %}{{ prod.featured_image.src | image_url: width: 1000  | replace:'//','https://' }}{% endif %}</td>
+        {% assign additional_image = '' %}
+        {% assign lifestyle = '' %}
+        {% for image in prod.media %}
+            {% if image.alt contains 'Additional' and image.src != blank %}
+              {% assign image_src = image.src | image_url: width: 1000 %}
+              {% assign additional_image = additional_image | append:image_src | append:',' %}
+            {% endif %}
+            {% if image.alt contains 'Scene Graph' and image.src != blank %}
+              {% assign image_src = image.src | image_url: width: 1000 %}
+              {% assign lifestyle = lifestyle | append:image_src | append:',' %}
+            {% endif %}
+        {% endfor %}
+        <td>{{ additional_image | remove_last:',' | replace:'//','https://' }}</td>
+        <td>{{ lifestyle | remove_last:',' | replace:'//','https://' | split:',' | first }}</td>
+      </tr>
+      {% assign inx = inx | plus:1 %}
+  {% endfor %}
+{% endfor %}
+</table>
+
+
+{% schema %}
+  {
+    "name": "Google Feed",
+    "settings": [],
+    "presets": [{
+      "name": "Google Feed"
+    }]
+  }
+{% endschema %}

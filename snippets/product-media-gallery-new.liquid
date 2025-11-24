@@ -1,0 +1,160 @@
+<div class="product-media"> 
+    <div class="product-media-inner">	
+        {% if settings.sale_icon != blank %}
+        <div class="sale-icon"><img src="{{ settings.sale_icon | image_url: width: settings.sale_icon_max_width_detail }}" width="{{ settings.sale_icon_max_width_detail }}" height="{{ settings.sale_icon_max_width_detail }}" /></div>
+        {% endif %}
+        <div class="swiper big-image-swiper">
+            <div class="swiper-wrapper">
+                    {%- for media in product.media -%}
+                        {% if media.media_type == 'image' %}
+                          <div class="swiper-slide image"><img src="{{ media.src | image_url:width:1000 }}" title="{{ media.alt }}" alt="{{ media.alt }}" width="1000" height="1000" /></div>
+                        {% else %}
+                            <div class="swiper-slide video">
+                            {%- liquid
+                              case media.media_type
+                                when 'video'
+                                  echo media | media_tag: image_size: '2048x', autoplay: true, loop: loop, controls: true, preload: 'none'
+                              endcase
+                            -%}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+            </div>
+
+        </div>
+        <div data-thumbs-slider="true" class="swiper thumbs-slider">
+            <div class="swiper-wrapper">
+                    {%- for media in product.media -%}
+                        {% if media.media_type == 'image' %}
+                        <div class="swiper-slide" style="max-width:200px;"><img src="{{ media.src | image_url:width:200 }}" title="{{ media.alt }}" alt="{{ media.alt }}" width="200" height="200" /></div>
+                        {% else %}
+                        {% if media.media_type == 'video' %}  
+                            <div class="swiper-slide video">
+                                  <img src="{{ media.preview_image.src | image_url:width:200 }}" />
+                                  <span class="thumbnail__badge" aria-hidden="true">
+                                      {%- render 'icon-play' -%}
+                                  </span>
+                            </div>
+                          {% endif %}
+                        {% endif %}
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% comment %} =========== 卖点 =========== {% endcomment %}
+    {% for block in section.blocks %}
+    	{% case block.type %}
+           {% when 'feature_points' %}
+
+                {% assign flag = false %}
+                {% capture itemhtml %}
+                  {% for i in (1..6) %}
+                    {% capture file %}product_point_image_{{ i }}{% endcapture %}
+                    {% capture info %}product_point_text_{{ i }}{% endcapture %}
+                    
+                    {% if product.metafields.custom[file] != blank %}
+                        {% assign flag = true %}
+                        <div class="item">
+                          <div class="img"><img src="{{ product.metafields.custom[file] | image_url: width: 30 }}" alt="" loading="lazy" width="30" height="auto"/></div>
+                          {% if product.metafields.custom[info] != blank %}
+                          <div class="info">
+                            <div class="info-t">{{ product.metafields.custom[info] | split:'|' | first }}</div>
+                            <div class="info-i">{{ product.metafields.custom[info] | split:'|' | last }}</div>
+                          </div>
+                          {% endif %}
+                        </div>
+                        
+                    {% endif %}
+                  {% endfor %}
+                {% endcapture %} 
+          
+                {% if flag %}
+                <div class="feature-points pc">
+                    <div class="items">
+                      {{ itemhtml }}
+                    </div>
+
+                    <style>
+                      .feature-points .items {
+                          display: flex;
+                          flex-wrap: wrap;
+                          justify-content: space-between;
+                          align-items: center;
+                          row-gap: 10px;
+                      }
+                      .feature-points .items .item {
+                          flex: 0 0 32%;
+                          max-width: 32%;
+                          font-size: 10px;
+                          display: flex;
+                          line-height: 1.2;
+                          align-items: center;
+                      }
+                      .feature-points .img {
+                          flex: 0 0 30px;
+                          max-width: 30px;
+                          margin-right: 10px;
+                      }
+                      .feature-points .info-t {
+                          font-weight: bold;
+                      }
+                    </style>
+                </div>
+                {% endif %}
+        {% endcase %}
+    {% endfor %}
+    
+
+    <script>
+    var productVariants = {
+      {% for variant in product.variants %}
+        "{{ variant.option1 | remove: '"' }}{{ variant.option2 | remove: '"' }}{{ variant.option3 | remove: '"' }}"  : "{{ variant.featured_image.src }}",
+      {% endfor %}
+    };
+    window.addEventListener('DOMContentLoaded', function() {
+        var thumbsSlider = new Swiper(".product-media .thumbs-slider", {
+            spaceBetween: 10,
+            slidesPerView: 6,
+            freeMode: true,
+            watchSlidesProgress: true,
+        });
+        var bigImageSwiper = new Swiper(".product-media .big-image-swiper", {
+            spaceBetween: 0,
+            // navigation: {
+            //     nextEl: ".product-media .big-image-swiper .swiper-button-next",
+            //     prevEl: ".product-media .big-image-swiper .swiper-button-prev",
+            // },
+            thumbs: {
+                swiper: thumbsSlider,
+            },
+        });
+
+        /* 点击变体切换图片 */
+        $('variant-selects .product-form__input label').on('click', function(){
+          
+            setTimeout(() => {
+              var checkedOption = $('variant-selects .product-form__input input:checked');
+                var checkedOptionValue = '';
+                for(i=0; i< checkedOption.length; i++){
+                  checkedOptionValue += $(checkedOption[i]).val();
+                }
+    
+                var imgIndex = -1;
+                $('.product-media .thumbs-slider .swiper-slide img').each(function(inx){
+                    if($(this).prop('src').indexOf(productVariants[checkedOptionValue]) != -1){
+                        imgIndex = inx;
+                        return;
+                    }
+                });
+                
+                bigImageSwiper.slideTo(imgIndex);
+              
+            }, "100");
+            
+        });
+
+  
+    });
+    </script>
+</div>

@@ -1,0 +1,145 @@
+{% assign flag = false %}
+{% capture itemhtml %}
+  {% for i in (1..4) %}
+    {% capture file %}detail_image_{{ i }}{% endcapture %}
+    {% capture title %}detail_image_title_{{ i }}{% endcapture %}
+    {% capture info %}detail_image_info_{{ i }}{% endcapture %}
+    
+    {% assign inx = i | modulo:2 %}
+    {% if product.metafields.custom[file] != blank %}
+        {% assign flag = true %}
+        <image-with-text reveal-on-scroll="" class="image-with-text {% if inx == 0 %}image-with-text--reverse{% endif %}">
+            <div class="image-with-text__wrapper">
+              <div class="image-with-text__image-wrapper">
+                {% if product.metafields.custom[file].value.media_type == 'video' %}
+                  {{ product.metafields.custom[file].value | video_tag: autoplay: true, loop: true, muted: true, controls: true, class:'image-with-text__image' }}
+                {% else %}
+                  <img src="{{ product.metafields.custom[file] | image_url: width: 800 }}" alt="" loading="lazy" width="auto" height="auto"  class="image-with-text__image lozad" style="visibility: visible;">
+                {% endif %}
+                
+              </div>
+        
+              <div class="image-with-text__content-wrapper">
+                  <image-with-text-item class="image-with-text__content text-container">
+                          <div class="heading">
+                            <split-lines reveal="" style="opacity: 1;"><h2>{{ product.metafields.custom[title] }}</h2></split-lines>
+                          </div>
+                          <div class="info">
+                            <split-lines reveal=""><p>{{ product.metafields.custom[info] }}</p></split-lines>
+                          </div>
+                          <div class="image-with-text__text-wrapper" reveal="" style="opacity: 1;"></div>
+                    </image-with-text-item>
+              </div>
+          </div>
+        </image-with-text>
+    {% endif %}
+  {% endfor %}
+{% endcapture %}  
+  
+{% if flag %}
+  <div data-section-id="{{ section.id }}">
+    <div class="container page-width">
+      <div class="heading-title"><h3>{{ section.settings.title }}</h3></div>
+      {{ itemhtml }}
+    
+    <style>  
+
+      [data-section-id="{{ section.id }}"] .container {
+          padding-top:{{ section.settings.pc_padding_top }}px;
+          padding-bottom:{{ section.settings.pc_padding_bottom }}px;
+      }
+      @media screen and (max-width: 767px) {
+          [data-section-id="{{ section.id }}"] .container {
+              padding-top:{{ section.settings.mb_padding_top }}px;
+      		padding-bottom:{{ section.settings.mb_padding_bottom }}px;
+          }
+      }
+      [data-section-id="{{ section.id }}"] split-lines strong {
+          font-size: 30px;
+          font-weight: 700;
+          display: block;
+          margin-bottom: 2rem;
+      }
+      [data-section-id="{{ section.id }}"] split-lines p {
+          font-size: 16px;
+          font-weight: 400;
+          margin:0;
+      }
+      [data-section-id="{{ section.id }}"] .image-with-text__wrapper {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      [data-section-id="{{ section.id }}"] .image-with-text--reverse .image-with-text__wrapper {
+          flex-direction: row-reverse;
+      }
+      [data-section-id="{{ section.id }}"] .image-with-text__image-wrapper {
+          flex: 0 0 40%;
+          max-width:40%;
+      }
+      [data-section-id="{{ section.id }}"] .image-with-text__content-wrapper {
+          flex: 0 0 50%;
+          max-width:50%;
+          padding: 0 3%;
+      }
+      image-with-text.image-with-text + image-with-text.image-with-text {
+        padding-top: 50px;
+        display: block;
+      }
+      @media screen and (max-width: 767px) {
+         [data-section-id="{{ section.id }}"] .image-with-text__image-wrapper {
+            flex: 0 0 100%;
+             max-width:100%;
+          }
+          [data-section-id="{{ section.id }}"] .image-with-text__content-wrapper {
+              flex: 0 0 100%;
+              max-width:100%;
+              padding: 0;
+          }
+          [data-section-id="{{ section.id }}"] .image-with-text__content-wrapper h2 {
+              font-size:22px;
+              text-align: center;
+              margin-bottom: 1rem;
+          }
+          [data-section-id="{{ section.id }}"] .image-with-text__content-wrapper p {
+              font-size: 14px;
+              line-height: 1.6;
+              padding: 10px 0;
+              color: #333;
+          }
+          [data-section-id="{{ section.id }}"] .image-with-text__wrapper {
+              display: flex;
+              flex-direction: column;
+          }
+          [data-section-id="{{ section.id }}"] .image-with-text--reverse .image-with-text__wrapper {
+              display: flex;
+              flex-direction: column;
+          }
+      }
+    </style>
+    </div>
+    </div>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Product image text",
+    "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Product Features" },
+
+        { "type": "header","content":"PC"},
+        { "type": "range", "id": "pc_padding_top", "label": "Top Space", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0 },
+        { "type": "range", "id": "pc_padding_bottom", "label": "Bottom Space", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0 },
+        { "type": "header","content":"Mobile"},
+        { "type": "range", "id": "mb_padding_top", "label": "Top Space", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+        { "type": "range", "id": "mb_padding_bottom", "label": "Bottom Space", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    ],
+    "presets": [
+    {
+      "name": "Product image text",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %}

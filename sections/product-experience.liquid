@@ -1,0 +1,171 @@
+<div data-section-id="{{ section.id }}" class="page-width">
+  <div class="container-custom">
+        <div class="blocks">
+            <div class="left-block">
+                {% if section.settings.title != blank %}<div class="title"><h3>{{ section.settings.title }}</h3></div>{% endif %}
+                {% if section.settings.info != blank %}<div class="info"><p>{{ section.settings.info }}</p></div>{% endif %}
+            </div>
+			<div class="right-block">
+    			<div class="content">
+                    {% for block in section.blocks %}
+    				<div class="item">
+                        <span class="item-icon"><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 63.9" style="width:16px;"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon class="st0" points="61.44,0 122.88,63.9 0,63.9 61.44,0"/></g></svg></span>
+    					<label class="item-title">{{ block.settings.item_title }}</label>
+    					<div class="item-info">{{ block.settings.item_info }}</div>
+    				</div>
+                    {% endfor %}
+    			</div>
+            </div>
+		</div>
+    
+  </div>
+</div>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+    /* 展开与收起 */
+    $('[data-section-id="{{ section.id }}"] .item').click(function () {
+        if($(this).hasClass('open')){
+          $(this).removeClass('open');
+        }else{
+          $(this).addClass('open');
+        }
+	})
+});
+</script>
+<style>
+[data-section-id="{{ section.id }}"] {
+  background:{{ section.settings.bg_color }};
+}
+[data-section-id="{{ section.id }}"] .container-custom {
+  margin:auto;
+  padding:{{ section.settings.section_width_padding1 }}px {{ section.settings.section_width_padding3 }}px {{ section.settings.section_width_padding2 }}px;
+}
+@media screen and (max-width: 767px) {
+  [data-section-id="{{ section.id }}"] .container-custom {
+    padding:{{ section.settings.section_width_padding_mb1 }}px {{ section.settings.section_width_padding_mb3 }}px {{ section.settings.section_width_padding_mb2 }}px;
+  }
+}
+
+[data-section-id="{{ section.id }}"] .blocks {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+[data-section-id="{{ section.id }}"] .left-block {
+  flex:0 0 50%;
+  max-width:50%;
+  padding-right:100px;
+}  
+[data-section-id="{{ section.id }}"] .right-block {
+  flex:0 0 40%;
+  max-width:600px;
+} 
+  
+[data-section-id="{{ section.id }}"] label.item-title {
+    display: block;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #000;
+    line-height: 34px;
+    letter-spacing: normal;
+    font-weight: 600;
+}  
+[data-section-id="{{ section.id }}"] .item-info {
+    margin: 0;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    display: -moz-box;
+    -moz-line-clamp: 1;
+    -moz-box-orient: vertical;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+}  
+[data-section-id="{{ section.id }}"] .open .item-info {
+    -webkit-line-clamp: 100;
+    -moz-line-clamp: 100;
+}  
+[data-section-id="{{ section.id }}"] .item {
+    display: block;
+    padding: 6px 0;
+    margin: 0;
+    min-height: 70px;
+    border-top: 1px solid #000;
+    padding-right: 40px;
+    position: relative;
+    cursor: pointer;
+}
+[data-section-id="{{ section.id }}"] .item:last-child {
+    border-bottom: 1px solid #000;
+}
+[data-section-id="{{ section.id }}"] .item-icon {
+    position: absolute;
+    right: 8px;
+    top: 22px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+    transform: rotate(180deg);
+}
+[data-section-id="{{ section.id }}"] .open .item-icon {
+    transform: rotate(0deg);
+}  
+@media screen and (max-width: 767px) {
+    [data-section-id="{{ section.id }}"] .left-block {
+      flex:0 0 100%;
+      max-width:100%;
+      padding-right:0;
+      padding-bottom:15px;
+    }  
+    [data-section-id="{{ section.id }}"] .right-block {
+      flex:0 0 100%;
+      max-width:100%;
+    }
+    [data-section-id="{{ section.id }}"] label.item-title {
+        font-size: 12px;
+    }  
+    [data-section-id="{{ section.id }}"] p.item-info {
+        font-size: 12px;
+    }
+    [data-section-id="{{ section.id }}"] .item-icon svg {
+        width:14px !important;
+    }
+  
+</style>
+{% schema %}
+{
+  "name": "Product Experience",
+  "class": "product-experience",
+  "settings": [
+        { "type": "color", "id": "bg_color", "label": "Background", "default": "rgba(0,0,0,0)" },
+        { "type": "text","id": "title", "label": "Title" },
+        { "type": "text","id": "info", "label": "Info" },
+        { "type": "header","content":"PC"},
+        { "type": "range", "id": "section_width_padding1", "label": "Padding Top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+        { "type": "range", "id": "section_width_padding2", "label": "Padding Bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 30 },
+        { "type": "range", "id": "section_width_padding3", "label": "Padding Left and Right", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+        { "type": "header","content":"Mobile"},
+        { "type": "range", "id": "section_width_padding_mb1", "label": "Padding Top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+        { "type": "range", "id": "section_width_padding_mb2", "label": "Padding Bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 10 },
+        { "type": "range", "id": "section_width_padding_mb3", "label": "Padding Left and Right", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+	],
+    "blocks": [
+          {
+              "type": "text",
+              "name": "Text",
+              "settings": [
+                  { "type": "textarea","id": "item_title", "label": "Title" },
+                  { "type": "richtext","id": "item_info", "label": "Info" },
+              ]
+            },
+    ],
+    "presets": [{
+      "name": "Product Experience",
+      "category": "Text"
+    }]
+}
+{% endschema %}

@@ -1,0 +1,93 @@
+<style>
+   .faq{
+		
+		max-width: 1500px;
+		margin:60px auto;
+	}
+
+	.faq .content-box .title-box{
+		text-align:center
+	}
+	
+	.faq .content-box .info-box .q{
+		font-weight:700;
+		margin:40px 0 0;
+	}
+	
+	.faq .content-box .info-box .a{
+		margin:10px 0 0;
+		color: rgb(53 53 55);
+	}
+	
+	.faq .content-box .info-box p{
+		margin:0;
+		padding:0;
+	}
+	
+	.faq .content-box .info-box .c{
+		margin:40px 0 0;
+	}
+</style>
+
+<div class="faq">
+  <div class="content-box">
+    <div class="title-box"><h2>FAQs</h2></div>
+    <div class="info-box">
+
+      {%- for block in section.blocks -%}
+        <div class="item">
+          <p class="q">{{ block.settings.title }}</p>
+          <p class="a" {% if block.settings.liegege == false %}style="display:none;"{% endif %} >{{ block.settings.answer }}</p>
+        </div>
+      {% endfor %}
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% schema %}
+  {
+    "name": "Text3",
+    "settings": [],
+  
+   "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+          {
+            "type": "checkbox",
+            "id": "liegege",
+            "label": "是否默认打开",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "标题"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "标题颜色",
+            "default": "#000000"
+          },
+          {
+            "type": "textarea",
+            "id": "answer",
+            "label": "描述"
+          }
+      ]
+    } 
+  ],
+  "presets": [
+    {
+      "name": "Test3"
+    }
+  ]
+}
+{% endschema %}

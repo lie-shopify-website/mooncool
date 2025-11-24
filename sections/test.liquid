@@ -1,0 +1,42 @@
+
+{% schema %}
+{
+  "name": "Test",
+  "class": "test-aaa",
+  "settings": [
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "按钮倒角",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+          {
+            "type": "text",
+            "id": "text1",
+            "label": "标题"
+          },
+          {
+            "type": "textarea",
+            "id": "sub_title",
+            "label": "描述"
+          }
+      ]
+    } 
+  ],
+  "presets": [
+    {
+      "name": "Test"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,168 @@
+<div class="layout-output">
+  <div class="layout-inner">
+      <div class="ps-box">
+            <div class="heading-title">
+               {% if section.settings.title != blank %}<div class="m-title"><h2>{{ section.settings.title }}</h2></div>{% endif %}
+               {% if section.settings.sub_title != blank %}<div class="sub-title"><p>{{ section.settings.sub_title }}</p></div>{% endif %}
+            </div>
+
+            <div class="swiper-box">
+                  <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                      {% for block in section.blocks %}
+                        {% assign product = block.settings.product %}
+                        {% if block.settings.image != blank %}
+                            <div class="swiper-slide">
+                                <a class="img-box" href="{{ product.url }}">
+                                    <div class="img"><img src="{{ block.settings.image | image_url:width:1000 }}" /></div>
+                                    <div class="p-title"><span>
+                                         {% if block.settings.ptitle != blank %}
+                                             {{ block.settings.ptitle }}
+                                         {% else %}
+                                             {{ product.title }}
+                                         {% endif %}
+                                    </span></div>
+                                    <div class="p-price">{{ product.price | money }}</div>
+                                </a>
+                            </div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                    <div class="swiper-pagination"></div>
+                  </div>
+              
+                  <div class="swiper-button-next"><img src="https://cdn.shopify.com/s/files/1/0652/6638/5115/files/summer-sale-arrow.png?v=1720771802" style="transform: rotate(-10deg);" /></div>
+                  <div class="swiper-button-prev"><img src="https://cdn.shopify.com/s/files/1/0652/6638/5115/files/summer-sale-arrow.png?v=1720771802" style="transform: rotate(-190deg);" /></div>
+            </div>
+                <script>
+                  window.addEventListener('DOMContentLoaded', function() {
+                      var productsSwiper = new Swiper(".products-swiper .swiper", {
+                        slidesPerView: 3.3,
+                        spaceBetween: 10,
+                        centeredSlides: true,
+                        loop:true,
+                        navigation: {
+                            nextEl: ".products-swiper .swiper-button-next",
+                            prevEl: ".products-swiper .swiper-button-prev",
+                        },
+                        breakpoints: { 
+                          320: {
+                            slidesPerView: 1.2,
+                            spaceBetween: 20
+                          },
+                          768: {
+                            slidesPerView: 2.5,
+                            spaceBetween: 40
+                          },
+                          1280: {
+                            slidesPerView: 3.3,
+                            spaceBetween:40
+                          }
+                        }
+                      });
+                  });
+                </script>
+      </div>
+  </div>
+</div>
+
+<style>
+  
+.products-swiper {
+    background: #fff;
+    padding: 100px 0;
+}  
+.products-swiper .layout-inner {
+    padding: 0 10%;
+}
+.products-swiper .swiper-box {
+    position: relative;
+}
+.products-swiper .swiper-button-next:after, 
+.products-swiper .swiper-button-prev:after {
+  display:none;
+}
+.products-swiper .swiper-button-prev,
+.products-swiper .swiper-button-next {
+    background: rgb(255 255 255 / 80%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.products-swiper a {
+    text-decoration: unset;
+}
+.products-swiper .heading-title h2 {
+    text-align: center;
+    font-size: 50px;
+    padding: 0;
+    margin: 0 0 100px 0;
+}
+.products-swiper .p-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -moz-box;
+    -moz-line-clamp: 2;
+    -moz-box-orient: vertical;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    font-size: 16px;
+    line-height: 1.2;
+    margin: 20px 0 10px;
+    padding: 0 5px;
+    color: #121212;
+}
+.products-swiper .p-price {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2;
+    padding: 0 5px;
+    color: #947523;
+}  
+@media screen and (max-width:767px) { 
+    .products-swiper{
+        padding: 50px 10px;
+    }
+    .products-swiper .layout-inner {
+        padding: 0;
+    }
+    .products-swiper .heading-title h2 {
+        margin: 0 0 50px 0;
+        font-size: 26px;
+    }
+}  
+</style>
+
+{% schema %}
+{
+  "name": "Products Swiper",
+  "class": "products-swiper",
+  "settings": [
+        { "type": "textarea", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "sub_title", "label": "Sub Title" },
+        { "type": "url", "id": "url", "label": "Url" }
+  ],
+  "blocks": [
+      {
+          "type": "image",
+          "name": "Image",
+          "settings": [
+              { "type": "image_picker", "id": "image", "label": "Image" },
+              { "type": "product", "id": "product", "label": "Product" },
+              { "type": "text", "id": "p_title", "label": "Title" }
+          ]
+      }
+    
+  ],
+  "presets": [{
+    "name": "Products Swiper",
+    "category": "Image"
+  }]
+}
+{% endschema %}
+
+      

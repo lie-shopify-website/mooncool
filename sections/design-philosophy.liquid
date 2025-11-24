@@ -1,0 +1,140 @@
+<section data-section-id="{{ section.id }}">
+<div class="odp-container">
+    <div class="obg">
+        {% if section.settings.title != blank %}<div class="heading-title"><h2>{{ section.settings.title | newline_to_br }}</h2></div>{% endif %}
+        <div class="items">
+          {%- for block in section.blocks -%}
+            <div class="item">
+                <div class="image"><img src="{{ block.settings.image | image_url:width:500 }}" alt="{{ block.settings.title }}" /></div>
+                <div class="s-title"><span>{{ block.settings.title }}</span></div>
+                <div class="info"><span>{{ block.settings.info }}</span></div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+
+<style>
+.design-philosophy {
+  padding:150px 50px;
+  background: #f0efef;
+}
+.design-philosophy .heading-title h2 {
+    text-align: center;
+    font-size: 50px;
+    padding: 0;
+    margin: 0 0 100px 0;
+}
+.design-philosophy .items {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.design-philosophy .item {
+    flex: 0 0 22%;
+    max-width: 22%;
+    margin-right: 3%;
+    text-align: center;
+    padding: 0 30px;
+}
+.design-philosophy .item:last-child {
+    margin-right:0;
+} 
+.design-philosophy .items .image {
+    max-width: 120px;
+    margin: auto;
+}
+.design-philosophy .items .s-title {
+    margin: 30px 0 10px;
+    font-size: 24px;
+    line-height: 1;
+}
+.design-philosophy .items .info {
+    line-height: 1.2;
+}
+@media screen and (max-width: 767px) {
+  .design-philosophy {
+      padding: 70px 10px;
+      background: #f0efef;
+  }
+  .design-philosophy .heading-title h2 {
+      font-size: 26px;
+      margin: 0 0 50px 0;
+  }
+  .design-philosophy .item {
+      flex: 0 0 48%;
+      max-width: 48%;
+      margin-right: 2%;
+      margin-bottom: 4%;
+      padding: 0;
+  }
+  .design-philosophy .item:nth-child(2n) {
+      margin-right:0;
+  }
+  .design-philosophy .item:nth-last-child(-n + 2) {
+      margin-bottom:0;
+  }
+  .design-philosophy .items .image {
+      max-width: 100px;
+      margin: auto;
+  }
+  .design-philosophy .items .s-title {
+      margin: 20px 0 10px;
+      font-size: 16px;
+      font-weight: bold;
+  }
+  .design-philosophy .items .info {
+      line-height: 1.2;
+      font-size: 12px;
+  }
+}
+        
+</style>
+    
+</div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Design Philosophy",
+  "class":"design-philosophy",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default":"Our Design Philosophy"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "info",
+          "label": "Info"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Image",
+      "name": "Design Philosophy"
+    }
+  ]
+}
+{% endschema %}
+

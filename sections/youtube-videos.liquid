@@ -1,0 +1,246 @@
+<section data-section-id="{{ section.id }}" style="display:block;">
+  <div class="container page-width {% if section.settings.full_width %}full-width{% endif %}" data-cc-animate="fade-in" data-cc-animate-delay="0.3s">
+    {% if section.settings.title != blank or section.settings.sub_title != blank %}
+    <div class="heading-title {% if section.settings.is_center %}text-center{% endif %}">
+      {% if section.settings.title != blank %}<h2 class="title inline-richtext h2">{{ section.settings.title }}</h2>{% endif %}
+      {% if section.settings.sub_title != blank %}<p class="sub-title">{{ section.settings.sub_title }}</p>{% endif %}
+    </div>
+    {% endif %}
+    <div class="videos-box">
+
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                {% for block in section.blocks %}
+                    <div class="swiper-slide">
+                      <div class="video-wrapper">
+                        {% if block.settings.video != blank %} {% comment %}Shopify Video{% endcomment %}
+                              {{ block.settings.video | media_tag: image_size: "1726x", autoplay: true, loop: true, controls: true, preload: 'none' }}
+                        {% else %} {% comment %}Youtube Video{% endcomment %}
+                            <iframe
+                              id="iframe-{{ block.id }}"
+                              src="https://www.youtube.com/embed/{{ block.settings.youtube_video.id }}?playsinline=1&autoplay=1&controls=0&mute=1&loop=1&playlist={{ block.settings.youtube_video.id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}"
+                              allow="autoplay; encrypted-media"
+                              allowfullscreen="allowfullscreen"
+                            ></iframe>
+                        {% endif %}
+                      </div>
+                      {% if block.settings.product != blank %}
+                        {% assign curr_product = block.settings.product %}
+                        <div class="product-box">
+                          <div class="p-cont">
+                            <div class="p-image"><img src="{{ curr_product.featured_media | image_url: width: 100 }}" width="100" height="auto" /></div>
+                            <div class="p-info">
+                              <span class="p-info_title">{{ curr_product.title }}</span>
+                              <span class="p-info_price">{{ curr_product.price | money }}</span>
+                            </div>
+                          </div>
+                          <div class="shopnow">
+                            <a href="{{ curr_product.url }}">Shop Now</a>
+                          </div>
+                        </div>
+                      {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<style>
+[data-section-id="{{ section.id }}"] .container {
+    padding-top:{{ section.settings.pc_padding_top }}px;
+	padding-bottom:{{ section.settings.pc_padding_bottom }}px;
+    background:{{ section.settings.background }};
+}
+@media screen and (max-width: 767px) {
+    [data-section-id="{{ section.id }}"] .container {
+        padding-top:{{ section.settings.mb_padding_top }}px;
+		padding-bottom:{{ section.settings.mb_padding_bottom }}px;
+    }
+}
+
+[data-section-id="{{ section.id }}"] .video-wrapper {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    padding-top: 56.25%;
+}
+[data-section-id="{{ section.id }}"] .video-wrapper iframe,
+[data-section-id="{{ section.id }}"] .video-wrapper video {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+[data-section-id="{{ section.id }}"] .swiper-button-next,
+[data-section-id="{{ section.id }}"] .swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+[data-section-id="{{ section.id }}"] .swiper-button-next:after,
+[data-section-id="{{ section.id }}"] .swiper-button-prev:after {
+    font-size: 20px;
+    font-weight: bold;
+}
+[data-section-id="{{ section.id }}"] .swiper-button-next:after {
+    position: relative;
+    left: 2px;
+}
+[data-section-id="{{ section.id }}"] .swiper-button-prev:after {
+    position: relative;
+    right: 2px;
+}
+[data-section-id="{{ section.id }}"] .swiper-scrollbar-lock {
+    display: none !important;
+}
+
+[data-section-id="{{ section.id }}"] .product-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: #fff;
+    padding: 10px;
+}
+[data-section-id="{{ section.id }}"] .p-cont {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 14px;
+}
+[data-section-id="{{ section.id }}"] .p-cont .p-image {
+    flex: 0 0 50px;
+    max-width: 50px;
+}
+[data-section-id="{{ section.id }}"] .shopnow {
+    flex: 0 0 80px;
+    max-width: 80px;
+    font-size: 12px;
+}
+[data-section-id="{{ section.id }}"] .p-info_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    display: -moz-box;
+    -moz-line-clamp: 1;
+    -moz-box-orient: vertical;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+}
+[data-section-id="{{ section.id }}"] .shopnow a {
+    display: inline-flex;
+    background: #E56321;
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 10px;
+    justify-content: center;
+    align-items: center;
+}
+@media screen and (max-width: 767px) {
+    [data-section-id="{{ section.id }}"] .swiper-button-next,
+    [data-section-id="{{ section.id }}"] .swiper-button-prev {
+        width: 40px;
+        height: 40px;
+    }
+    [data-section-id="{{ section.id }}"] .swiper-button-next:after,
+    [data-section-id="{{ section.id }}"] .swiper-button-prev:after {
+        font-size: 16px;
+    }
+}
+</style>
+
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        var swiper = new Swiper('[data-section-id="{{ section.id }}"] .swiper', {
+            spaceBetween: 30,
+            freeMode: true,
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                },
+                768: {
+                    slidesPerView: 2,
+                },
+                1080: {
+                    slidesPerView: 3,
+                },
+                1440: {
+                    slidesPerView: {{ section.settings.per_view }},
+                },
+            },
+             navigation: {
+              nextEl: '[data-section-id="{{ section.id }}"] .swiper-button-next',
+              prevEl: '[data-section-id="{{ section.id }}"] .swiper-button-prev',
+            },
+            on: {
+                resize: function(){
+                this.update(); //窗口变化时，更新Swiper的一些属性，如宽高等
+                }, 
+            },
+        });
+    });                       
+</script>
+
+{% schema %}
+    {
+        "name": "Youtube Videos",
+        "class":"youtube-videos",
+        "settings": [
+              { "type": "color", "id": "background", "label": "Background", "default":"#ffffff" },
+			  { "type": "checkbox", "id": "full_width", "label": "Full Width", "default": false },
+              { "type": "header","content":"Option"},
+              { "type": "checkbox", "id": "is_center", "label": "居中", "default": false },
+              { "type": "text", "id": "title", "label": "Title" },
+              { "type": "text", "id": "sub_title", "label": "Sub Title" },
+          
+              { "type": "range", "id": "per_view", "label": "每行显示几个", "min": 1, "max": 5, "step": 1, "unit": "un", "default": 3 ,"info": "手机端一行显示一个"},
+              
+              { "type": "header","content":"PC"},
+              { "type": "range", "id": "pc_padding_top", "label": "Top Space", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0 },
+              { "type": "range", "id": "pc_padding_bottom", "label": "Bottom Space", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0 },
+              { "type": "header","content":"Mobile"},
+              { "type": "range", "id": "mb_padding_top", "label": "Top Space", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+              { "type": "range", "id": "mb_padding_bottom", "label": "Bottom Space", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
+        ],
+        "blocks": [
+          {
+            "type": "video",
+            "name": "Video",
+            "settings": [
+                { "type": "video", "id":"video", "label":"Video" },
+                { "type": "video_url", "id": "youtube_video", "label": "Youtube Video", "accept": [ "youtube" ] },
+                { "type": "paragraph", "content": "Shopify视频与Youtube视频二选一，如果两者都上传了，则显示Shopify视频。" },
+                
+                { "type": "product", "id":"product", "label":"Product" }
+            ]
+          }
+        ],
+        "presets": [
+            {
+                "name": "Youtube Videos"
+            }
+        ]
+    }
+{% endschema %}

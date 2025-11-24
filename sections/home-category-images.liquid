@@ -1,0 +1,198 @@
+<section data-section-id="{{ section.id }}">
+  <div class="container page-width">
+      <div class="cibg">
+            {%- if section.settings.title != blank -%}
+              <div class="heading-title {% if section.settings.is_center %}text-center{% endif %}">
+                {%- if section.settings.title != blank -%} <div class="heading-title"><h2 class="title inline-richtext h2">{{ section.settings.title }}</h2></div> {%- endif -%}
+                {%- if section.settings.sub_title != blank -%}<div class="sub-title"><p>{{ section.settings.sub_title }}</p></div>{%- endif -%}
+              </div>
+            {%- endif -%}
+  
+          <div class="items-list">
+            <div class="items">
+                <div class="item">
+                    {% assign block = section.blocks[0] %}
+                    {% if block.settings.image != blank %}
+                        <a href="{{ block.settings.collection.url }}">
+                          <picture>
+                            <source srcset="{{ block.settings.image_mb | image_url: width: 1023 }}"  media="(max-width: 1023px)" />
+                            <source srcset="{{ block.settings.image | image_url: width: block.settings.image.width }}" media="(min-width: 1024px)" />
+                            <img src="{{ block.settings.image_mb | image_url: width: 1024 }}" width="100%" height="auto" />
+                          </picture>
+                          <div class="coll-title">{{ block.settings.collection.title }}</div>
+                          <div class="coll-shop-now">Shop Now</div>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="item">
+                    {% assign block = section.blocks[1] %}
+                    {% if block.settings.image != blank %}
+                        <a href="{{ block.settings.collection.url }}">
+                          <picture>
+                            <source srcset="{{ block.settings.image_mb | image_url: width: 1023 }}"  media="(max-width: 1023px)" />
+                            <source srcset="{{ block.settings.image | image_url: width: block.settings.image.width }}" media="(min-width: 1024px)" />
+                            <img src="{{ block.settings.image_mb | image_url: width: 1024 }}" width="100%" height="auto" />
+                          </picture>
+                          <div class="coll-title">{{ block.settings.collection.title }}</div>
+                          <div class="coll-shop-now">Shop Now</div>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="item">
+                    {% assign block = section.blocks[2] %}
+                    {% if block.settings.image != blank %}
+                        <a href="{{ block.settings.collection.url }}">
+                          <picture>
+                            <source srcset="{{ block.settings.image_mb | image_url: width: 1023 }}"  media="(max-width: 1023px)" />
+                            <source srcset="{{ block.settings.image | image_url: width: block.settings.image.width }}" media="(min-width: 1024px)" />
+                            <img src="{{ block.settings.image_mb | image_url: width: 1024 }}" width="100%" height="auto" />
+                          </picture>
+                          <div class="coll-title">{{ block.settings.collection.title }}</div>
+                          <div class="coll-shop-now">Shop Now</div>
+                        </a>
+                    {% endif %}
+
+                    {% assign block = section.blocks[3] %}
+                    {% if block.settings.image != blank %}
+                        <a href="{{ block.settings.collection.url }}">
+                          <picture>
+                            <source srcset="{{ block.settings.image_mb | image_url: width: 1023 }}"  media="(max-width: 1023px)" />
+                            <source srcset="{{ block.settings.image | image_url: width: block.settings.image.width }}" media="(min-width: 1024px)" />
+                            <img src="{{ block.settings.image_mb | image_url: width: 1024 }}" width="100%" height="auto" />
+                          </picture>
+                          <div class="coll-title">{{ block.settings.collection.title }}</div>
+                          <div class="coll-shop-now">Shop Now</div>
+                        </a>
+                    {% endif %}
+                </div>
+              
+            </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<style>
+
+[data-section-id="{{ section.id }}"] .container {
+    --gutter:20px;
+    /* max-width: var(--page-width, 1320px); */
+    padding-top:{{ section.settings.pc_padding_top }}px;
+	padding-bottom:{{ section.settings.pc_padding_bottom }}px;
+    background:{{ section.settings.background }};
+    margin-left: auto;
+    margin-right: auto;
+}
+@media screen and (max-width: 767px) {
+    [data-section-id="{{ section.id }}"] .container {
+        --gutter:10px;
+        padding-top:{{ section.settings.mb_padding_top }}px;
+		padding-bottom:{{ section.settings.mb_padding_bottom }}px;
+    }
+}
+.home-category-images .items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.home-category-images .item {
+    flex:0 0 calc(calc(100% / 3) - calc(2/3*20px));
+    max-width:calc(calc(100% / 3) - calc(2/3*20px));
+}
+.home-category-images .item a + a {
+    display:block;
+    margin-top:23px;
+}
+.home-category-images .item img {
+    border-radius: 10px;
+}
+.home-category-images .item a {
+    position: relative;
+}
+.home-category-images  .coll-title {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    font-size: 26px;
+    font-weight: bold;   /* 加粗 */
+    color: #202020;
+}
+.home-category-images  .coll-shop-now {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 16px;
+    font-weight: bold;   /* 加粗 */
+    padding: 4px 15px;
+    background: #e56321;
+    color: #fff;
+    border-radius: 6px;
+}
+@media (min-width: 1280px){
+  .home-category-images .coll-shop-now {
+      display:none;
+  }
+  .home-category-images a:hover .coll-shop-now {
+      display:block;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .home-category-images .items {
+      gap: 10px;
+  }
+  .home-category-images .item a + a {
+      margin-top:10px;
+  }
+  .home-category-images .item {
+      flex: 0 0 100%;
+      max-width: 100%;
+  }
+  .home-category-images .coll-title {
+      font-size: 22px;
+  }
+  .home-category-images .coll-shop-now {
+    display: none;   /* 手机端隐藏按钮 */  
+    font-size: 14px;
+  }
+}
+</style>
+
+{% schema %}
+
+  {
+  "name": "Home Category Images",
+  "class": "home-category-images",
+  "settings": [
+        { "type": "color", "id": "background", "label": "Background", "default":"#ffffff" },
+        { "type": "checkbox", "id": "full_width", "label": "Full Width", "default": false },
+        { "type": "header","content":"Option"},
+        { "type": "checkbox", "id": "is_center", "label": "居中", "default": false },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "sub_title", "label": "Sub Title" },
+        { "type": "header","content":"PC"},
+        { "type": "range", "id": "pc_padding_top", "label": "Top Space", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0 },
+        { "type": "range", "id": "pc_padding_bottom", "label": "Bottom Space", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0 },
+        { "type": "header","content":"Mobile"},
+        { "type": "range", "id": "mb_padding_top", "label": "Top Space", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+        { "type": "range", "id": "mb_padding_bottom", "label": "Bottom Space", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Item",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "image_picker", "id": "image_mb", "label": "Image Mobile" },
+        { "type": "collection", "id": "collection", "label": "collection" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Category Images",
+    }
+  ]
+}
+{% endschema %}

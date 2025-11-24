@@ -1,0 +1,162 @@
+<div class="accessories-block-list">
+  <div class="block-list-layout">
+    <div class="list-content-title">{{ block.settings.title }}</div>
+    {% if block.settings.sub_title !=blank %} <div class="list-content-sub-title">{{ block.settings.sub_title }}</div> {% endif %}
+    <div class="accessories-list-items">
+      {% for i in (1..20) %}
+      {% capture product_inx %}product{{ i }}{% endcapture %}
+      {% capture is_hide_str %}is_hide{{ i }}{% endcapture %}
+      {% capture is_free_str %}is_free{{ i }}{% endcapture %}
+      {% capture is_checked_str %}is_checked{{ i }}{% endcapture %}
+      {% capture sale_price_str %}sale_price{{ i }}{% endcapture %}
+      {% capture custom_name_str %}custom_name{{ i }}{% endcapture %}
+        
+      {% capture metafields_product_inx %}accessories_item_{{ i }}{% endcapture %}
+      {% assign metafields_product = product.metafields.custom[metafields_product_inx] %}
+      {% if metafields_product.value %}
+          {% assign acc_product = metafields_product.value %}
+      {% else %}
+          {% assign acc_product = block.settings[product_inx] %}
+      {% endif %}    
+
+      {% capture metafields_product_price_inx %}accessories_item_price_{{ i }}{% endcapture %}
+      {% assign metafields_product_price = product.metafields.custom[metafields_product_price_inx] %}
+      {% if metafields_product_price.value %}
+          {% assign sale_price = metafields_product_price.value %}
+      {% else %}
+          {% assign sale_price = block.settings[sale_price_str] %}
+      {% endif %}
+        
+      {% assign is_hide = block.settings[is_hide_str] %}
+      {% assign is_free = block.settings[is_free_str] %}
+      {% assign is_checked = block.settings[is_checked_str] %}
+      {% assign custom_name = block.settings[custom_name_str] %}
+      {% if acc_product != blank and is_hide == false and acc_product.id != product.id %}
+          {% if acc_product.variants !=blank %}
+              {% assign post_id = acc_product.variants[0].id %}
+          {% endif %}
+          <div class="accessories-item {% if is_checked or is_free %} input_ischecked {% endif %} {% if block.settings.open_show_more and i > block.settings.open_show_more_num %}hide{% endif %}" 
+            {% if block.settings.open_show_more and i > block.settings.open_show_more_num %}data-hide{% endif %} data-product-id="{{ acc_product.id }}">
+            <div class="item-layout">
+              <div class="input-block">
+                <input type="checkbox" 
+                  data-action="bundle-add-to-cart" data-product-variant-id="{{ post_id }}" data-product-qty="1" {% if
+                  acc_product.available==false %}disabled="disabled" {% endif %} {% if is_checked or is_free
+                  %}checked{% endif %}>
+              </div>
+              <div class="center-block {% if acc_product.available == true %}open-accessories-detail-item{% endif %}">
+                <div class="img-box"><a href="{{ acc_product.url }}" target="_blank"><img src="{{ acc_product.featured_image |img_url: '50x' }}" alt=""></a></div>
+                <div class="accessories-name">
+                  <span> {% if custom_name != blank %} {{ custom_name | newline_to_br}} {% else %} {{ acc_product.title }} {% endif %} </span>
+                  
+                  {% if acc_product.available == false %}<span class="out-of-stock">Sold out</span>{% endif %}
+                    {% if acc_product.variants.size > 1 %}
+                      <div class="variants-box">
+                          <div class="pr-selectors">
+                              <select class="variant-list">
+                                {% for variant in acc_product.variants %}
+                                <option value="{{ variant.id }}" 
+                                    data-price="{{ variant.price | money }}" 
+                                    data-compare-price="{{ variant.compare_at_price | money }}" 
+                                    {% if variant.available == false %}disabled{% endif %}>
+                                  {{ variant.title }} - {{ variant.price | money }}
+                                </option>
+                                {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+                    {% endif %}
+                </div>
+              </div>
+              <div class="item-price-box">
+                {% if is_free %}
+                    <div class="free-text item-sale-price" data-product-price="0">Free</div>
+                    {% if acc_product.compare_at_price !=blank %}
+                      {% assign tmp_price = acc_product.compare_at_price | money %}
+                    {% else %}
+                      {% assign tmp_price = acc_product.price | money %}
+                    {% endif %}
+                    <div class="item-underlined-price free-underlined-price"> {{ tmp_price }} </div>
+                {% else %}
+                  
+                    {% if sale_price != blank %}
+                        <div class="item-sale-price" data-product-price="{{ sale_price | times:100 }}">
+                          {{ acc_product.price | times: 0.01 | minus : sale_price | times:100 | money }}</div>
+                        <div class="item-underlined-price">{{ acc_product.price | money }}</div>
+                    {% else %}
+                        {% if acc_product.compare_at_price %}
+                          {% assign data_product_price = acc_product.compare_at_price | minus:acc_product.price %}
+                        {% else %}
+                          {% assign data_product_price = 0 %}
+                        {% endif %}
+                        <div class="item-sale-price {% if acc_product.compare_at_price == blank %}b-color{% endif %}" data-product-price="{{ data_product_price }}">{{ acc_product.price | money }}</div>
+                        {% if acc_product.compare_at_price !=blank %}
+                            <div class="item-underlined-price">{{ acc_product.compare_at_price | money }}</div>
+                        {% endif %}
+                   {% endif %}
+                {% endif %}
+              </div>
+              
+            </div>
+          </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    
+    <div class="list-content-bottom">
+      {% if block.settings.open_show_more %}
+          <div class="show-more-accessories">
+            <span class="show-text">Show more</span>
+            <span class="icon-plus">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 4.16602L13.3333 9.99935L7.5 15.8327" stroke="#111827" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+          </div>
+      {% endif %}
+      <div class="list-content-bottom-layout" style="display:none;">
+        <div class="add-count-box">add 0</div>
+        &nbsp;&amp;&nbsp;
+        <div class="save-offer-box">Save 0%</div>
+        &nbsp;
+      </div>
+    </div>
+
+
+
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    
+    //  === 在product-form.js 里实现配件选购具体方式 ===
+
+    
+
+    /* 选属性 */
+    $('.variants-box select.variant-list').on('change', function(){
+        var checked = $(this).find('option:checked');
+        var price = checked.attr('data-price');
+        var compare_at_price = checked.attr('data-compare-price');
+        var variant_id = checked.val();
+
+        var accessoriesItem = $(this).parents('.accessories-item');
+        accessoriesItem.find('.input-block input[type="checkbox"]').attr('data-product-variant-id', variant_id);
+        accessoriesItem.find('.item-sale-price').text(price);
+        accessoriesItem.find('.item-underlined-price').text(compare_at_price);
+    });
+
+    /* 选中 */
+    $('.accessories-block-list .accessories-item input').on('click', function(){
+        if($(this).prop('checked')){
+          $(this).parents('.accessories-item').addClass('input_ischecked');
+        }else{
+          $(this).parents('.accessories-item').removeClass('input_ischecked');
+        }
+    });
+
+
+  });
+
+
+</script>
