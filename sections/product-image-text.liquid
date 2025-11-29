@@ -38,22 +38,11 @@
   
 {% if flag %}
   <div data-section-id="{{ section.id }}">
-    <div class="container page-width">
+    <div class="container page-width-desktop">
       <div class="heading-title"><h3>{{ section.settings.title }}</h3></div>
       {{ itemhtml }}
     
     <style>  
-
-      [data-section-id="{{ section.id }}"] .container {
-          padding-top:{{ section.settings.pc_padding_top }}px;
-          padding-bottom:{{ section.settings.pc_padding_bottom }}px;
-      }
-      @media screen and (max-width: 767px) {
-          [data-section-id="{{ section.id }}"] .container {
-              padding-top:{{ section.settings.mb_padding_top }}px;
-      		padding-bottom:{{ section.settings.mb_padding_bottom }}px;
-          }
-      }
       [data-section-id="{{ section.id }}"] split-lines strong {
           font-size: 30px;
           font-weight: 700;
@@ -87,6 +76,10 @@
         display: block;
       }
       @media screen and (max-width: 767px) {
+          [data-section-id="{{ section.id }}"] .page-width-desktop {
+              padding: 40px 20px;
+              margin: 0 auto;
+          }
          [data-section-id="{{ section.id }}"] .image-with-text__image-wrapper {
             flex: 0 0 100%;
              max-width:100%;
@@ -127,13 +120,6 @@
     "name": "Product image text",
     "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Product Features" },
-
-        { "type": "header","content":"PC"},
-        { "type": "range", "id": "pc_padding_top", "label": "Top Space", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0 },
-        { "type": "range", "id": "pc_padding_bottom", "label": "Bottom Space", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0 },
-        { "type": "header","content":"Mobile"},
-        { "type": "range", "id": "mb_padding_top", "label": "Top Space", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
-        { "type": "range", "id": "mb_padding_bottom", "label": "Bottom Space", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
     ],
     "presets": [
     {

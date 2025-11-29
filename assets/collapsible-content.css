@@ -48,7 +48,7 @@
   margin: 0 auto;
   padding-right: 1.5rem;
   padding-left: 1.5rem;
-  max-width: 93.4rem;
+  max-width: 73.4rem;
 }
 
 .collapsible-content__header {
@@ -124,15 +124,5 @@
     .collapsible-content__grid--reverse .collapsible-content__grid-item {
       padding-left: 7rem;
     }
-  }
-}
-
-
-.collapsible-content .accordion summary {
-    padding: 2.5rem 10px;
-}
-@media screen and (max-width: 768px) {
-  .collapsible-content .accordion summary {
-      padding: 2rem 10px;
   }
 }

@@ -17,11 +17,12 @@
            {%- if section.settings.image != blank -%}
                <div class="images">
                    {% if section.settings.link != blank %}<a href="{{ section.settings.link }}"> {% endif %}
-                      <picture>
-                        <source srcset="{{ section.settings.mb_image | image_url: width: 1023 }}"  media="(max-width: 1023px)" />
-                        <source srcset="{{ section.settings.image | image_url: width: section.settings.image.width }}" media="(min-width: 1024px)" />
-                        <img src="{{ section.settings.mb_image | image_url: width: 1024 }}" width="100%" height="auto" />
-                      </picture>
+                      <div class="img pc">
+                        <img src="{{ section.settings.image | image_url:width:2000 }}" width="2000" height="auto" alt="{{ section.settings.title }}" />
+                      </div>
+                       <div class="img mb">
+                        <img src="{{ section.settings.mb_image | image_url:width:800 }}" width="800" height="auto" alt="{{ section.settings.title }}" />
+                      </div>
                   {% if section.settings.link != blank %} </a> {% endif %}
                </div>
             {%- endif -%}

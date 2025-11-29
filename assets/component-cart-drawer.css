@@ -418,7 +418,7 @@ cart-drawer-items::-webkit-scrollbar-track-piece {
     font-size: 12px;
     font-weight: bold;
     padding-right: 10px;
-    color:#df6816;
+    color: #77660e;
 }
 
 .cart-drawer .cart-item quantity-popover {
@@ -439,9 +439,4 @@ cart-drawer-items::-webkit-scrollbar-track-piece {
 }
 .cart-drawer .quantity__button {
     width: 20px;
-}
-
-.cart-drawer p.totals__total-value {
-    color: #df6816;
-    font-weight: bold;
 }

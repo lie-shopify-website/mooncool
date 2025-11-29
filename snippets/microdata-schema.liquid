@@ -1,17 +1,315 @@
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": "https://outexer.com/#organization",
-  "name": "Outexer",
-  "url": "https://outexer.com",
-  "logo": "https://cdn.shopify.com/s/files/1/0649/8117/2266/files/Outexer_Logo_960.png",
-  "sameAs": [
-    "https://www.facebook.com/OutexerHosana",
-    "https://www.instagram.com/outexerhosana/",
-    "https://www.youtube.com/@Outexersauna",
-    "https://x.com/outexer",
-    "https://www.pinterest.com/outexer/"
-  ]
-}
-</script>
+{%- comment -%}
+  This snippet structures the micro-data using JSON-LD specification. Please note that for Product especially, the schema often changes. We try to output as much info as possible, but Google may add new requirements over time, or change the format of some info.
+{%- endcomment -%}
+
+<meta name="robots" content="max-image-preview:large">
+
+
+{% comment %} -- Product -- {% endcomment %}
+{%- if request.page_type == 'product' -%}
+  
+    {%- assign days_product_price_valid_until = 10 | times: 86400 -%}
+    {% if product.metafields.custom.product_seo_title != blank %}
+        {% assign product_title = product.metafields.custom.product_seo_title %}
+    {% else %}  
+        {% assign product_title = product.title %}
+    {% endif %}
+
+  {%- capture main_entity_microdata -%}
+            "@type": "Product",
+            "productID": {{ product.id | json }},
+            "offers": [
+              {%- for variant in product.variants -%}
+                {%- assign gtin_option = 'gtin' -%}
+                {%- if variant.barcode != blank -%}
+                  {%- assign is_barcode_available = true -%}
+                  {%- assign gtin_string_length = variant.barcode | size -%}
+        
+                  {%- if gtin_string_length == 8 or gtin_string_length == 12 or gtin_string_length == 13 or gtin_string_length == 14 -%}
+                    {%- assign is_valid_gtin_length = true -%}
+                    {%- assign gtin_option = gtin_option | append: gtin_string_length -%}
+                  {%- endif -%}
+                {%- endif -%}
+        
+                {
+                  "@type": "Offer","sku": {{ variant.title | json }},"availability": {%- if variant.available -%}"https://schema.org/InStock"{%- else -%}"https://schema.org/OutOfStock"{%- endif -%},
+                  "price": {{ variant.price | divided_by: 100.0 | json }},
+                  "priceCurrency": {{ cart.currency.iso_code | json }},
+                  "priceValidUntil": "{{ 'now' | date: '%s' | plus: days_product_price_valid_until | date: '%Y-%m-%d' }}",
+                
+                  {%- if is_barcode_available and is_valid_gtin_length %}
+                    "{{ gtin_option }}": {{ product.selected_or_first_available_variant.barcode | json }},
+                  {%- elsif is_barcode_available %}
+                    "mpn": {{ product.selected_or_first_available_variant.barcode | json }},
+                  {%- endif %}
+                  
+                "url": "{{ shop.url }}{{ product.url }}"
+                }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            ],
+            "brand": {
+              "@type": "Brand",
+              "name": "{{ shop.name }}"
+            },
+            {%- assign product_id = product.id -%}
+            {%- assign last_chars = product_id | slice: -2, 2 -%}
+            {%- assign last_chara = product_id | slice: -1, 1 -%}   
+            "aggregateRating":{
+                "@type":"AggregateRating",
+                "ratingValue":"4.{{last_chara}}",
+                "reviewCount":"1{{last_chars}}",
+                "worstRating": "1.0",
+                "bestRating": "5.0"
+            },
+            "name": {{ product_title | json }},
+            "description": {{ product.description | strip_html | json }},
+            "category": {{ product.type | json }},
+            "url": "{{ shop.url }}{{ product.url }}",
+            "sku": {{ product.selected_or_first_available_variant.sku | json }},
+            "image": {
+              "@type": "ImageObject",
+              "url": "https:{{ page_image | image_url: width: 1200 }}",
+              "image": "https:{{ page_image | image_url: width: 1200 }}",
+              "name": {{ product_title | json }},
+              "width": "1200",
+              "height": "1200"
+            }
+  {%- endcapture -%}
+{% endif %}
+
+{% comment %} -- Collection -- {% endcomment %}
+{%- if request.page_type == 'collection' -%}  
+  {%- capture main_entity_microdata -%}
+    
+      "@type": "ProductCollection",
+      "name": {{ collection.title | json }},
+      "headline": {{ collection.title | json }},
+      "collectionSize": "100",
+      "description": "{{ collection.description | strip_html | truncatewords: 30 | escape }}",
+      "category": {{ collection.title | json }},
+      "itemCondition": "NewCondition",
+      "keywords": {{ collection.title | json }},
+      "about":"{{ collection.description | strip_html | truncatewords: 30 | escape }}",
+      "url": "{{ shop.url }}{{ collection.url }}",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": ["incense burner lovers","incense","worship","rituals","zen","decoration","ornaments","holidays","tea","gifts"],
+         "geographicArea" :
+         {
+            "@type": "AdministrativeArea",
+            "geo": {
+                  "@type": "GeoCoordinates",
+                  "addressCountry": "USA"
+             }
+         }
+      },
+      "image": {
+        "@type": "ImageObject",
+        "height": 1080,
+        "url": "https:{{ page_image | image_url: width: 1920 }}",
+        "width": 1920
+      }
+    {% endcapture %}
+{% endif %}
+
+{% comment %} -- Article -- {% endcomment %}
+{%- if request.page_type == 'article' -%}
+  
+  {%- capture main_entity_microdata -%}
+    "@graph": [
+           {
+                "@type": "WebPage",
+                "@id": "{{ shop.url }}{{ article.url }}/#webpage",
+                "url": "{{ shop.url }}{{ article.url }}",
+                "name": {{ article.title | json }},
+                "datePublished": "{{ article.created_at | date: '%Y-%m-%dT%T' }}+00:00",
+                "dateModified": "{{ article.published_at | date: '%Y-%m-%dT%T' }}+00:00",
+                "isPartOf": {
+                    "@id": "{{ shop.url }}/#website"
+                 },
+                 "primaryImageOfPage": {
+                     "@id": "https:{{ page_image | image_url: width: 1200 }}"
+                 },
+                 "inLanguage": "en-US",
+                 "breadcrumb": {
+                     "@id": "{{ shop.url }}{{ article.url }}/#breadcrumb"
+                 }
+            },
+           {"@type": "WebSite",
+              "@id": "{{ shop.url }}/#website",
+              "url": "{{ shop.url }}/",
+              "publisher": {
+                  "@id": "{{ shop.url }}/#organization"
+              },
+              "inLanguage": "en-US"
+            },
+            {"@type": "BreadcrumbList",
+              "@id": "{{ shop.url }}{{ request.path }}/#breadcrumb",
+              "name": "breadcrumb",
+              "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {"@type": "Thing","@id": "{{ shop.url }}","name": {{ 'Home' | json }}}
+              },{
+                "@type": "ListItem",
+                "position": 2,
+                "item": {"@type": "Thing","@id": "{{ shop.url }}{{ article.url }}","name": {{ article.title | json }}}
+              }]
+          },
+          {"@type": "ImageObject",
+            "inLanguage": "en-US",
+            "@id": "https:{{ page_image | image_url: width: 1200 }}",
+            "url": "https:{{ page_image | image_url: width: 1200 }}",
+            "contentUrl": "https:{{ page_image | image_url: width: 1200 }}",
+            "width": 1920,
+            "height": 1080,
+            "caption": {{ page_image.alt | json }}
+          },
+          {"@type": "BlogPosting",
+                "mainEntityOfPage":{"@id": "{{ shop.url }}{{ article.url }}"},
+                "isPartOf":{"@id": "{{ shop.url }}{{ article.url }}/#webpage"},
+                "@id": "{{ shop.url }}{{ article.url }}/#richSnippet",
+                "articleSection": {{ blog.title | json }},
+                "keywords": "{{ article.tags | join: ', ' }}",
+                "headline": {{ article.title | json }},
+                "name": {{ article.title | json }},
+                "description": {{ article.excerpt_or_content | strip_html | truncatewords: 30 | json }},
+                "datePublished": "{{ article.created_at | date: '%Y-%m-%dT%T' }}+00:00",
+                "dateModified": "{{ article.published_at | date: '%Y-%m-%dT%T' }}+00:00",
+                "image": {
+                "@id": "https:{{ page_image | image_url: width: 1200 }}"},
+                "inLanguage": "en-US",
+                "author": {
+                  "@type": "Person",
+                  "url": "{{ shop.url }}/#Liegege",
+                  "name": "Liu Leon",
+                  "givenName": "Leon",
+                  "familyName": "Liu"
+                },
+                "publisher": {
+                  "@type": "Organization"
+                },
+                "commentCount": {{ article.comments_count }},
+                "comment": [
+                  {%- for comment in article.comments limit: 5 -%}
+                    {
+                      "@type": "Comment",
+                      "author": {{ comment.author | json }},
+                      "datePublished": "{{ comment.created_at | date: '%Y-%m-%dT%T' }}",
+                      "text": {{ comment.content | json }}
+                    }{%- unless forloop.last -%},{%- endunless -%}
+                  {%- endfor -%}
+                ]
+            }
+        ]
+  {%- endcapture -%}
+{%- endif -%}
+
+
+  
+{% if request.page_type != 'article' %}
+    {%- capture breadcrumb_entity_microdata -%}
+      
+          {%- if request.page_type == 'product' -%}
+              "@type": "BreadcrumbList",
+              "@id": "{{ shop.url }}{{ request.path }}/#breadcrumb",
+              "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {"name": "{{ shop.name }}","@id": "{{ shop.url }}"}
+              },{
+                "@type": "ListItem",
+                "position": 2,
+                "item": {"name": {{ product.title | json }},"@id": "{{ shop.url }}{{ product.url }}"}
+              }]
+            
+          {%- elsif request.page_type == 'collection' -%}
+            
+              "@type": "BreadcrumbList",
+              "@id": "{{ shop.url }}{{ request.path }}/#breadcrumb",
+              "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {"name": "{{ shop.name }}","@id": "{{ shop.url }}"}
+              },{
+                "@type": "ListItem",
+                "position": 2,
+                "item": {"name": {{ collection.title | json }},"@id": "{{ shop.url }}{{ collection.url }}"}
+              }]
+            
+          {%- elsif request.page_type == 'blog' -%}
+              "@type": "BreadcrumbList",
+              "@id": "{{ shop.url }}{{ request.path }}/#breadcrumb",
+              "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {"name": "{{ shop.name }}","@id": "{{ shop.url }}"}
+              },{
+                "@type": "ListItem",
+                "position": 2,
+                "item": {"name": {{ blog.title | json }},"@id": "{{ shop.url }}{{ blog.url }}"}
+              }]
+          {%- elsif request.page_type == 'article' -%}
+      
+          {%- elsif request.page_type == 'page' -%}
+              "@type": "BreadcrumbList",
+              "@id": "{{ shop.url }}{{ request.path }}/#breadcrumb",
+              "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {"name": "{{ shop.name }}","@id": "{{ shop.url }}"}
+              },{
+                "@type": "ListItem",
+                "position": 2,
+                "item": {"name": {{ page.title | json }},"@id": "{{ shop.url }}{{ page.url }}"}
+              }]
+         }
+        {% endif %}
+      
+    {%- endcapture -%}
+{%- endif -%}
+
+
+{% comment %} ===================================================================== {% endcomment %}
+   
+   
+{% if main_entity_microdata != blank %}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      {{ main_entity_microdata }}
+    }
+  </script>
+{% endif %}
+
+{% if breadcrumb_entity_microdata != blank %}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      {{ breadcrumb_entity_microdata }}
+    }
+  </script>
+{% endif %}
+
+
+{%- if request.page_type == 'index' -%}
+  {%- assign potential_action_target = request.origin
+    | append: routes.search_url
+    | append: '?q={search_term_string}'
+  -%}
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | append: page.url | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+{%- endif -%}
+

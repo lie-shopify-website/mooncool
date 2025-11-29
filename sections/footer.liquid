@@ -17,16 +17,14 @@
     padding-right: 50px;
   }
   footer .container {
-      --container-max-width: 1560px;
+      --container-max-width: 1460px;
       width: 100%;
       max-width:var(--container-max-width);
       margin-left:auto;
       margin-right:auto;
-      padding: 0 40px;
+      padding: 0 20px;
   }
-  footer img {
-    margin:unset;
-  }
+
   .footer__item-list {
       display: grid;
       grid-gap: 40px;
@@ -121,7 +119,7 @@
       overflow: visible;
   }
   .footer__item-list.top-section {
-      border-bottom: 3px solid #E56321;
+      border-bottom: 4px solid #735336;
       margin-bottom: 40px;
       padding-bottom: 20px;
   }
@@ -158,7 +156,7 @@
   .footer__item-list .input__submit-icon {
     width: 100px;
     height: 100%;
-    background: #e56321;
+    background: #978108;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -182,7 +180,7 @@
       stroke: #fff;
   }
   footer .footer .footer__item--newsletter .input__field {
-      border: 2px solid rgb(119 119 119);
+      border: 2px solid rgb(115 83 54);
       width: 100%;
       height: var(--form-input-field-height);
       outline: none;
@@ -210,7 +208,7 @@
       font-size: 14px;
   }
   .footer__item-list .social-media__item {
-      background: #777;
+      background: #978108;
       margin-right: 10px;
       margin-bottom: 10px;
       border-radius: 5px;
@@ -219,7 +217,7 @@
       transform: scale(.733) translateY(calc(-24px - .5em)) translate(3.665px);
   }
   .footer__item-list .social-media__item:hover::before {
-    background: #e56321;
+    background: #735336;
   }
   .footer__item-list .social-media__item svg path {
     fill:#fff;
@@ -228,7 +226,7 @@
     font-size: 14px;
     line-height: 1.5;
     text-transform: uppercase;
-    color: #000000;
+    color: #978108;
     font-weight: bold;
   }
   footer .footer a {
@@ -474,11 +472,6 @@
                   {%- endif -%}
 
                 {%- when 'text' -%}
-                  {%- if block.settings.image != blank -%}
-                    {%- capture sizes_attribute -%}{{ block.settings.image_width }}px{%- endcapture -%}
-                    {%- capture style_attribute -%}width: {{ block.settings.image_width }}px{%- endcapture -%}
-                    {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', style: style_attribute, sizes: sizes_attribute, widths: '100,200,300,400,500,600', class: 'footer__image' -}}
-                  {%- endif -%}
                   {%- if block.settings.title != blank -%}
                     <p class="footer__item-title heading heading--small">{{ block.settings.title | escape }}</p>
                   {%- endif -%}
@@ -561,7 +554,7 @@
                     {{ type | strip | payment_type_svg_tag }}
                   {% endfor %}
                 {%- else -%}
-                  {% assign enabled_payment_types = 'american-express, google_pay, apple_pay, jcb, master, paypal, visa, discover, diners_club, amazon, shopify_pay' | remove: ' ' | split: ',' %}
+                  {% assign enabled_payment_types = 'visa,master,american_express,paypal,diners_club,discover' | remove: ' ' | split: ',' %}
                     {% for type in enabled_payment_types %}
                     {{ type | payment_type_svg_tag }}
                   {% endfor %}
@@ -785,22 +778,6 @@ window.addEventListener('DOMContentLoaded', function() {
           "id": "title",
           "label": "t:Heading",
           "default": "About our store"
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "t:Image",
-          "info": "t:300_x_300px_png_recommended"
-        },
-        {
-          "type": "range",
-          "id": "image_width",
-          "min": 50,
-          "max": 300,
-          "step": 10,
-          "unit": "px",
-          "label": "t:Image_width",
-          "default": 150
         },
         {
           "type": "richtext",

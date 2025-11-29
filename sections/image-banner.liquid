@@ -120,27 +120,14 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
-            {%- assign h1_collections = '1-person-saunas,2-person-saunas,outdoor-saunas,indoor-saunas,infrared-saunas,traditional-saunas' | split: ',' -%}
-
-{%- if request.page_type == 'collection' and h1_collections contains collection.handle -%}
-  <h1
-    class="banner__heading inline-richtext {{ block.settings.heading_size }}"
-    style="color:{{ block.settings.color }};"
-    {{ block.shopify_attributes }}
-  >
-    {{ block.settings.heading }}
-  </h1>
-{%- else -%}
-  <h2
-    class="banner__heading inline-richtext {{ block.settings.heading_size }}"
-    style="color:{{ block.settings.color }};"
-    {{ block.shopify_attributes }}
-  >
-    {{ block.settings.heading }}
-  </h2>
-{%- endif -%}
+            <h2
+              class="banner__heading inline-richtext {{ block.settings.heading_size }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.heading }}
+            </h2>
           {%- when 'text' -%}
-            <div class="banner__text rte {{ block.settings.text_style }}" style="color:{{ block.settings.color }};" {{ block.shopify_attributes }}>
+            <div class="banner__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
               <p>{{ block.settings.text }}</p>
             </div>
           {%- when 'buttons' -%}
@@ -381,12 +368,6 @@
       "limit": 1,
       "settings": [
         {
-          "type": "color",
-          "id": "color",
-          "default": "#000",
-          "label": "Color"
-        },
-        {
           "type": "inline_richtext",
           "id": "heading",
           "default": "Image banner",
@@ -419,12 +400,6 @@
       "name": "t:sections.image-banner.blocks.text.name",
       "limit": 1,
       "settings": [
-        {
-          "type": "color",
-          "id": "color",
-          "default": "#000",
-          "label": "Color"
-        },
         {
           "type": "inline_richtext",
           "id": "text",

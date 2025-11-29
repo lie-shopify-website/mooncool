@@ -221,7 +221,7 @@
 @media screen and (max-width: 749px) {
   .banner--mobile-bottom .banner__media,
   .banner--stacked:not(.banner--mobile-bottom) .banner__media {
-    /* position: relative; */
+    position: relative;
   }
 
   .banner--stacked.banner--adapt .banner__content {
@@ -350,9 +350,7 @@
 }
 
 .banner--mobile-bottom .banner__box {
-    padding: 4rem 3.5rem;
-    background: #fffefe3b;
-    border-radius: 10px;
+  padding: 4rem 3.5rem;
 }
 
 @media screen and (min-width: 750px) {
@@ -381,7 +379,7 @@
 @media screen and (max-width: 749px) {
   .banner--mobile-bottom::after,
   .banner--mobile-bottom .banner__media::after {
-    /* display: none; */
+    display: none;
   }
 }
 

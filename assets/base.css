@@ -1,42 +1,8 @@
 
-/* @font-face {
-   font-family: 'Brand';
-   src:url('https://cdn.shopify.com/s/files/1/0649/8117/2266/files/Brand.woff2?v=1746785006') format('woff2');
-   font-display: swap;
-} */
-
-/* @font-face {
-   font-family: 'Brand';
-   src:url('https://outexer.com/cdn/shop/t/10/assets/EuclidCircularA-Regular.ttf') format('truetype');
-   font-display: swap;
-} */
-
 @font-face {
-   font-family: 'Brand';
-   src:url('https://cdn.shopify.com/s/files/1/0649/8117/2266/files/Lato-Regular.ttf?v=1747908841') format('truetype');
+   font-family: 'EuclidCircularA';
+   src:url('https://cdn.shopify.com/s/files/1/0574/5868/8134/files/EuclidCircularA-Regular.ttf?v=1733482515') format('truetype');
    font-display: swap;
-}
-
-
-
-.pc {display:block;}
-.mb {display:none;}
-@media screen and (max-width: 767px) {
-	.pc {display:none;}
-	.mb {display:block;}
-}
-
-/* CSS */
-.swiper:not(.swiper-initialized) { /* 选择未初始化的容器 */
-  opacity: 0;
-}
-.swiper:not(.swiper-initialized) .swiper-slide { /* 选择未初始化的容器 */
-  width: auto;
-  height: auto;
-}
-.swiper.swiper-initialized {
-  opacity: 1;
-  transition: opacity 0.3s ease; /* 可选：添加一个淡入效果 */
 }
 
 header.header {
@@ -53,7 +19,7 @@ a {
 }
 
 .announcement-bar-section .utility-bar {
-    background:#e56321;
+    background: #998000;
 }
 .announcement-bar-section .announcement-bar__message {
     color: #fff;
@@ -146,6 +112,7 @@ body {
   margin:auto;
 }
 html {
+    background: #f0efef;
     overflow-x:hidden;
 }
 img, video {
@@ -154,9 +121,7 @@ img, video {
   display:block;
   height:auto;
 }
-img, video, iframe {
-  border:none;
-}
+
 *, :before, :after {
     box-sizing: border-box;
 }
@@ -347,6 +312,7 @@ h5,
   font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
+  letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
   color: rgb(var(--color-foreground));
   line-height: calc(1 + 0.3 / max(1, var(--font-heading-scale)));
   word-break: break-word;
@@ -2974,6 +2940,7 @@ details-disclosure > details {
 
 .gradient {
   background: rgb(var(--color-background));
+  background: #f9f9ee;
   background-attachment: fixed;
 }
 
@@ -3565,8 +3532,6 @@ details-disclosure > details {
 
 .price__regular .price-item--regular {
   margin-right: 0;
-  font-weight: bold;
-  color: #df6816;
 }
 
 .price:not(.price--show-badge) .price-item--last:last-of-type {
@@ -3580,14 +3545,14 @@ details-disclosure > details {
 }
 
 .price--large {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: calc(1 + 0.5 / var(--font-body-scale));
   letter-spacing: 0.13rem;
 }
 
 @media screen and (min-width: 750px) {
   .price--large {
-    font-size: 2.0rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -3647,31 +3612,29 @@ details-disclosure > details {
 .heading-title h3 {
     font-size: 40px;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .featured-colletion {
   margin-top:50px;
 }
-.h2.title {
+.featured-colletion h2.title {
     font-size: 40px;
-    /* text-align: center; */
+    text-align: center;
     margin-bottom: 30px;
 }
 
 .card__information .price .price-item--sale {
-    color: #df6816;
+    color: #947523;
     font-size: 16px;
     font-weight: bold;
 }
 .card__information .price .price-item--regular {
     font-size: 14px;
-    font-weight: bold;
-    /* color: #df6816; */
 }
 .template-product product-info .price .price-item--sale {
-    color: #df6816;
-    font-size: 20px;
+    color: #947523;
+    font-size: 22px;
     font-weight: bold;
     letter-spacing:0;
 }
@@ -3683,15 +3646,15 @@ details-disclosure > details {
 @media screen and (max-width: 767px) {
   .heading-title h3 {
       font-size: 26px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
   }
   
   .featured-colletion {
     margin-top:0;
   }
-  .h2.title {
+  .featured-colletion h2.title {
       font-size: 26px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
   }
 
   .card__information .card__heading a {
@@ -3706,7 +3669,6 @@ details-disclosure > details {
       word-wrap: break-word;
       word-break: break-word;
       white-space: normal;
-      font-size: 14px;
   }
   
   .card__information .price .price-item--sale {
@@ -3717,7 +3679,7 @@ details-disclosure > details {
   }
 
   .template-product .product__title h1 {
-      font-size: 20px;
+      font-size: 16px;
       margin-top: 10px;
   }
   
@@ -3942,7 +3904,7 @@ details-disclosure > details {
 .accessories-block-list .accessories-item .item-layout .item-price-box .item-sale-price {
   font-size: 16px;
   font-weight: 700;
-  color: #e56321;
+  color: #F83A3A;
 }
 .accessories-block-list .accessories-item .item-layout .item-price-box .item-sale-price.b-color {
   color: #1a1a1a;
@@ -4404,8 +4366,6 @@ details-disclosure > details {
 product-form .product-form__submit {
     background: #ffd814;
     color: #000;
-    font-weight: bold;
-    text-transform: capitalize;
 }
 product-form .product-form__submit:after {
     display:none;
@@ -4419,15 +4379,14 @@ a.cart-item__name.h4 {
     position: absolute;
     top: 10px;
     left: 10px;
-    background: #e56321;
-    color: #fff;
+    background: #ffac33;
+    color: #000;
     font-size: 12px;
     border-radius: 3px;
     padding: 6px 7px 5px;
     text-transform: uppercase;
     letter-spacing: .5px;
     line-height: 1;
-    font-weight: bold;
 }
 product-info .card-save-label {
   position:static;
@@ -4537,14 +4496,14 @@ product-info .card-save-label {
     margin-bottom: 5px;
 }
 .recommended-list .item-sale-price {
-    color: #df6816;
+    color: #77660e;
     font-weight: bold;
 }
 .recommended-list .atc {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    background:#df6816;
+    background: #bba018;
     padding: 3px 5px;
     border-radius: 3px;
     color: #ffffff;
@@ -4563,53 +4522,6 @@ span.cart-heading-note {
     font-size: 12px;
     font-weight: normal;
     font-style: italic;
-    color: #df6816;
+    color: #bba018;
     margin-left: 10px;
-}
-
-.card__information a {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    display: -moz-box;
-    -moz-line-clamp: 2;
-    -moz-box-orient: vertical;
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-    font-size: 16px;
-}
-
-
-.installation_guide-wrapper {
-    margin-bottom: 15px;
-}
-.installation_guide-wrapper a {
-    display: flex;
-    align-items: center;
-    color: #4d4dff;
-    text-decoration: underline;
-    text-underline-offset: 5px;
-}
-.installation_guide-wrapper a svg {
-    margin-right:20px;
-}
-
-.heading-title .sub-title {
-    margin-top: -20px;
-    margin-bottom: 30px;
-    font-size: 18px;
-    line-height: 1.2;
-}
-
-.text-center {
-  text-align:center;
-}
-@media screen and (max-width: 740px) {
-  .heading-title .sub-title {
-      margin-top: 0px;
-      font-size: 14px;
-  }
 }

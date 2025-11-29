@@ -64,7 +64,7 @@
         {%- if card_product.featured_media -%}
           <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
             {% if card_product.compare_at_price > card_product.price %}
-              <div class="card-save-label" style="display:none;"><span>-{{ card_product.compare_at_price | minus:card_product.price | money }}</span></div>
+              <div class="card-save-label"><span>save {{ card_product.compare_at_price | minus:card_product.price | money }}</span></div>
             {% endif %}
             <div class="media media--transparent media--hover-effect">
               {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}

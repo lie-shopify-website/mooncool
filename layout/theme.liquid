@@ -120,7 +120,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
-  <link rel="canonical" href="{{ request.origin }}{{ request.path }}">
+    <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
@@ -216,12 +216,12 @@
       }
 
       :root {
-        --font-body-family: "Brand",{{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-body-family: EuclidCircularA,{{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
         --font-body-style: {{ settings.type_body_font.style }};
         --font-body-weight: {{ settings.type_body_font.weight }};
         --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
 
-        --font-heading-family: "Brand",{{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --font-heading-family: EuclidCircularA,{{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
         --font-heading-style: {{ settings.type_header_font.style }};
         --font-heading-weight: 600;
 
@@ -357,7 +357,7 @@
         min-height: 100%;
         margin: 0;
         font-size: 1.5rem;
-        letter-spacing:0.5px;
+        letter-spacing: 0.06rem;
         line-height: calc(1 + 0.8 / var(--font-body-scale));
         font-family: var(--font-body-family);
         font-style: var(--font-body-style);

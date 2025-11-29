@@ -146,17 +146,4 @@
 
     <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
-
-   <div class="payment-methods-list payment-methods-list--auto">
-      {%- if payment_methods_config != blank -%}
-        {% for type in payment_methods_config %}
-          {{ type | strip | payment_type_svg_tag }}
-        {% endfor %}
-      {%- else -%}
-        {% assign enabled_payment_types = 'american-express, google_pay, apple_pay, jcb, master, paypal, visa, discover, diners_club, amazon, shopify_pay' | remove: ' ' | split: ',' %}
-          {% for type in enabled_payment_types %}
-          {{ type | payment_type_svg_tag }}
-        {% endfor %}
-      {%- endif -%}
-    </div>
 </div>

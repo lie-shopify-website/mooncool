@@ -31,6 +31,11 @@ if (!customElements.get('product-form')) {
         delete config.headers['Content-Type'];
 
 
+
+
+        
+        const formData = new FormData(this.form);
+
         /* ========= 配件选购 ========= */
         var jquery = window.jQuery;
         var items = [];
@@ -38,28 +43,15 @@ if (!customElements.get('product-form')) {
         var input_count = all_input.length;
         
         if (input_count != 0){
-            var accessoriesForm = new FormData();
             all_input.each(function(index, ele) {
                 var item_id = jquery(ele).attr("data-product-variant-id");
                 var item_quantity = parseInt(jquery(ele).attr("data-product-qty"));
-                accessoriesForm.set(`items[${index}]id`, item_id);
-                accessoriesForm.set(`items[${index}]quantity`, item_quantity);
+                formData.set(`items[${index}]id`, item_id);
+                formData.set(`items[${index}]quantity`, item_quantity);
             });
-          
-            await fetch(
-              `/cart/add.js`,
-              {
-                body: accessoriesForm,
-                method: "POST",
-                headers: { "X-Requested-With": "XMLHttpRequest" },
-              },
-            );
-            
         }
         /* ================== */
-
         
-        const formData = new FormData(this.form);
         if (this.cart) {
           formData.append(
             'sections',

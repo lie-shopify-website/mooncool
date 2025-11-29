@@ -12,19 +12,6 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-
-  .section-{{ section.id }}-padding .pc {display:block !important;}
-  .section-{{ section.id }}-padding .mb {display:none !important;}
-  @media screen and (max-width: 767px) {
-  	.section-{{ section.id }}-padding .pc {display:none !important; }
-  	.section-{{ section.id }}-padding .mb {display:block !important;}
-
-    .section-{{ section.id }}-padding .image-with-text__media--large {
-        height: 30.5rem;
-    }
-  }
-
-  
 {%- endstyle -%}
 
 {%- liquid
@@ -78,12 +65,7 @@
                 {{
                   block.settings.image
                   | image_url: width: 1500
-                  | image_tag: sizes: sizes, widths: '165, 360, 535, 750, 1070, 1500', class:"pc"
-                }}
-                {{
-                  block.settings.image_mb
-                  | image_url: width: 1500
-                  | image_tag: sizes: sizes, widths: '165, 360, 535, 750, 1070, 1500', class:"mb"
+                  | image_tag: sizes: sizes, widths: '165, 360, 535, 750, 1070, 1500'
                 }}
               {%- else -%}
                 {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -366,11 +348,6 @@
           "type": "image_picker",
           "id": "image",
           "label": "t:sections.multirow.blocks.row.settings.image.label"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_mb",
-          "label": "Image Mobile"
         },
         {
           "type": "text",
