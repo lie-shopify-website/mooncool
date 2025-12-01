@@ -1,8 +1,21 @@
 
-@font-face {
-   font-family: 'EuclidCircularA';
-   src:url('https://cdn.shopify.com/s/files/1/0574/5868/8134/files/EuclidCircularA-Regular.ttf?v=1733482515') format('truetype');
-   font-display: swap;
+
+.section-space {
+  margin-top:min(calc((144 / 1920) * 100vw), 144px);
+  margin-bottom:min(calc((144 / 1920) * 100vw), 144px);
+}
+@media screen and (max-width: 767px) {
+  .section-space {
+    margin-top:calc((48 / 375) * 100vw);
+    margin-bottom:calc((48 / 375) * 100vw);
+  }
+}
+
+.pc {display:block;}
+.mb {display:none;}
+@media screen and (max-width: 767px) {
+	.pc {display:none;}
+	.mb {display:block;}
 }
 
 header.header {
@@ -312,7 +325,7 @@ h5,
   font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
-  letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+  letter-spacing: 0;
   color: rgb(var(--color-foreground));
   line-height: calc(1 + 0.3 / max(1, var(--font-heading-scale)));
   word-break: break-word;
@@ -2940,7 +2953,6 @@ details-disclosure > details {
 
 .gradient {
   background: rgb(var(--color-background));
-  background: #f9f9ee;
   background-attachment: fixed;
 }
 

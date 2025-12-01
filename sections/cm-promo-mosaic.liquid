@@ -1,0 +1,96 @@
+
+{% schema %}
+    {
+      "name": "CM Promo Mosaic",
+      "settings": [
+      ],
+      "max_blocks": 3,
+      "blocks": [
+        {
+          "type": "promo_big_image",
+          "name": "Promo Big Image",
+          "settings": [
+            { "type": "image_picker", "id": "image", "label": "Image" },
+            { "type": "image_picker", "id": "image_mb", "label": "Image Mobile" },
+            { "type": "textarea", "id": "title", "default": "Some title", "label": "Title" },
+            { "type": "textarea", "id": "desc", "default": "<p>Some description</p>", "label": "Desc" }, 
+            { "type": "url", "id": "button_link", "label": "Button Link" }, 
+            { "type": "text", "id": "button_label", "label": "Button Label", "default": "Explore More" }
+          ]
+        },
+        {
+          "type": "promo_small_image",
+          "name": "Promo Small Image",
+          "settings": [
+            { "type": "image_picker", "id": "image", "label": "Image" },
+            { "type": "image_picker", "id": "image_mb", "label": "Image Mobile" },
+            { "type": "textarea", "id": "title", "default": "Some title", "label": "Title" },
+            { "type": "textarea", "id": "desc", "default": "<p>Some description</p>", "label": "Desc" }, 
+            { "type": "url", "id": "button_link", "label": "Button Link" }, 
+            { "type": "text", "id": "button_label", "label": "Button Label", "default": "Explore More" }
+          ]
+        }
+      ],
+      
+      "presets": [
+        {
+          "name": "CM Promo Mosaic",
+          "category": "custom",
+          "blocks": [
+                { "type": "promo_big_image" },
+                { "type": "promo_small_image" },
+                { "type": "promo_small_image" }
+            ]
+        }
+      ]
+    }
+  {% endschema %}
+  
+  
+  {{ 'cm-promo-mosaic.css' | asset_url | stylesheet_tag }}
+  
+  <div class="cm-promo-mosaic section-space" data-section-id="{{ section.id }}">
+    <div class="safe-container">
+        <div class="promo-layout">
+            <div class="promo-grid">
+                {% for block in section.blocks %}
+                    <div class="grid-item" data-block-type="{{ block.type }}">
+                        <div class="image-box">
+                            {% if block.settings.button_link != blank %}<a href="{{ block.settings.button_link }}"></a>{% endif %}
+
+                            {% if forloop.first %}  {% comment %} LCP需要, 首屏第一个图片不做懒加载 {% endcomment %}
+                                <picture>
+                                    <source srcset="{{ block.settings.image_mb | image_url: width: 767 }}"  media="(max-width: 767px)" />
+                                    <source srcset="{{ block.settings.image | image_url: width: block.settings.bg.width }}" media="(min-width: 768px)" />
+                                    <img src="{{ block.settings.image_mb | image_url: width: 767 }}" width="auto" height="auto" />
+                                </picture>
+                            {% else %}
+                                <picture>
+                                    <source data-srcset="{{ block.settings.image_mb | image_url: width: 767 }}"  media="(max-width: 767px)" />
+                                    <source data-srcset="{{ block.settings.image | image_url: width: block.settings.bg.width }}" media="(min-width: 768px)" />
+                                    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-lzsrc="{{ block.settings.image_mb | image_url: width: 767 }}" class="js-lazy" width="auto" height="auto" />
+                                </picture>
+                            {% endif %}
+                        </div>
+                        <div class="content-box">
+                            <div class="content-inner">
+                                {% if block.settings.desc != blank %}
+                                    <div class="promo-desc">{{ block.settings.desc }}</div>
+                                {% endif %}
+                                {% if block.settings.title != blank %}
+                                    <div class="promo-title"><h2>{{ block.settings.title }}</h2></div>
+                                {% endif %}
+
+                                {% if block.settings.button_link != blank and block.settings.button_label != blank %}
+                                    <a href="{{ block.settings.button_link }}" class="promo-btn">
+                                        <span>{{ block.settings.button_label }}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>  
+  </div>
