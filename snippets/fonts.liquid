@@ -17,39 +17,60 @@
         font-display: swap;
     }
 
+    :root {
+        --padding-x:20px;
+        --safe-width: 100%;
+    }
+
     @media (min-width: 768px) {
         :root {
-            --safe-width: 728px;
+            --padding-x:20px;
+            --safe-width: 100%;
+            --scale:0.5;
+            --font-scale:0.8;
         }
     }
 
     @media (min-width: 1280px) {
         :root {
-            --safe-width: 1200px;
+            --padding-x:30px;
+            --safe-width: 100%;
+            --scale:0.6;
+            --font-scale:0.85;
         }
     }
 
     @media (min-width: 1440px) {
         :root {
-            --safe-width: 1360px;
+            --padding-x:40px;
+            --safe-width: 100%;
+            --scale:0.8;
+            --font-scale:0.9;
         }
     }
 
     @media (min-width: 1520px) {
         :root {
+            --padding-x:0;
             --safe-width: 1440px;
+            --scale:0.9;
+            --font-scale:0.95;
         }
     }
 
     @media (min-width: 1920px) {
         :root {
             --safe-width: 1700px;
+            --scale:1;
+            --font-scale:1;
         }
     }
 
     .safe-container {
         width: 100%;
         max-width: var(--safe-width);
+        padding-left:var(--padding-x);
+        padding-right:var(--padding-x);
         margin-left: auto;
         margin-right: auto;
     }
