@@ -17,6 +17,8 @@
           "settings": {
             "image": "shopify://shop_images/promo-01.jpg",
             "image_mb": "shopify://shop_images/promo-mb01.jpg",
+            "slide_video": "shopify://files/videos/Christmas+1.mp4",
+            "slide_video_mb": "shopify://files/videos/Christmas+1.mp4",
             "title": "Experience Freedom",
             "desc": "",
             "button_link": "shopify://products/battery-charger-for-tk1-folding",
