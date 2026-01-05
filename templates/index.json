@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "cm_promo_mosaic_kiXriP": {
       "type": "cm-promo-mosaic",
@@ -17,8 +17,8 @@
           "settings": {
             "image": "shopify://shop_images/promo-01.jpg",
             "image_mb": "shopify://shop_images/promo-mb01.jpg",
-            "slide_video": "shopify://files/videos/Christmas+1.mp4",
-            "slide_video_mb": "shopify://files/videos/Christmas+1.mp4",
+            "slide_video": "shopify://files/videos/30s_27b2c32f-f95e-4523-9902-ddeb4b7d7e7c.mp4",
+            "slide_video_mb": "shopify://files/videos/车把_7f1d1ca8-d0fd-4648-9efc-b5b215355ee4.mp4",
             "title": "Experience Freedom",
             "desc": "",
             "button_link": "shopify://products/battery-charger-for-tk1-folding",
